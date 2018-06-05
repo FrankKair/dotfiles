@@ -3,7 +3,9 @@
 	name = Frank Kair
 	email = frankkair@gmail.com
 [core]
-	pager = diff-so-fancy | less -+X
+  pager = diff-so-fancy | less -+X
+[push]
+  default = current
 [color]
 	ui = true
 [color "diff-highlight"]
