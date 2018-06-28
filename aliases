@@ -1,0 +1,5 @@
+alias hgi='history | grep -i'
+alias gcane='git commit --amend --no-edit'
+alias activate='source venv/bin/activate'
+alias beri='bundle exec rake install'
+alias rac='rubocop --auto-correct'
