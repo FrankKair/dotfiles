@@ -10,6 +10,7 @@ brew cask install postman
 brew cask install spotify
 brew cask install slack
 brew cask install skype
+brew cask install transmission
 
 echo "~ Tools"
 brew install yarn
