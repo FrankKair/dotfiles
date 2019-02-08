@@ -1,4 +1,5 @@
 set number
+set relativenumber
 syntax on
 color default
 filetype plugin indent on
