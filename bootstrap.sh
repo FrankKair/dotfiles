@@ -13,7 +13,6 @@ brew cask install visual-studio-code
 brew cask install postman
 brew cask install spotify
 brew cask install slack
-brew cask install skype
 brew cask install transmission
 
 echo "~ Tools"
@@ -25,6 +24,5 @@ brew install bat
 
 echo "~ Programming Languages"
 brew install python3
-brew install lua
 brew install go
 brew install rust
