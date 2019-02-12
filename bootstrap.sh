@@ -4,7 +4,8 @@ echo "Starting setup\n"
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
-# Git open plugin
+# git-open plugin
+# https://github.com/paulirish/git-open
 # Don't forget to add git-open to .zshrc plugin=(... git-open)
 git clone https://github.com/paulirish/git-open.git $ZSH_CUSTOM/plugins/git-open
 
