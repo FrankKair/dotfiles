@@ -31,9 +31,12 @@ brew install rbenv
 echo "~ Programming Languages"
 brew install node
 brew install python3
+brew install lua
 brew install go
-brew install rust
 
 echo "~ TypeScript & ts-node"
 npm install -g ts-node
 npm install -g typescript
+
+echo "~ rustup"
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
