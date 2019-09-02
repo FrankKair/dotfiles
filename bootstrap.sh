@@ -13,7 +13,7 @@ git clone https://github.com/paulirish/git-open.git $ZSH_CUSTOM/plugins/git-open
 
 echo "~ Applications"
 brew cask install visual-studio-code
-brew cask install postman
+brew cask install insomnia 
 brew cask install spotify
 brew cask install slack
 brew cask install the-unarchiver
