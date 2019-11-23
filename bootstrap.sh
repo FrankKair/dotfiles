@@ -13,6 +13,7 @@ git clone https://github.com/paulirish/git-open.git $ZSH_CUSTOM/plugins/git-open
 
 echo "~ Applications"
 brew cask install visual-studio-code
+brew cask install emacs
 brew cask install insomnia 
 brew cask install spotify
 brew cask install slack
@@ -23,6 +24,7 @@ brew cask install firefox
 brew cask install mplayerx
 
 echo "~ Tools"
+brew install neovim
 brew install yarn
 brew install diff-so-fancy
 brew install bat
@@ -33,6 +35,8 @@ brew install node
 brew install python3
 brew install lua
 brew install go
+brew install ocaml
+brew install opam
 
 echo "~ TypeScript & ts-node"
 npm install -g ts-node

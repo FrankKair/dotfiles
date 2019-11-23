@@ -9,6 +9,10 @@ set softtabstop=2
 set expandtab
 set cursorline
 
+" Permanent undo
+set undodir=~./vimdid
+set undofile
+
 "
 command! W :w
 
