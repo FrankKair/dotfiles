@@ -14,14 +14,14 @@ git clone https://github.com/paulirish/git-open.git $ZSH_CUSTOM/plugins/git-open
 echo "~ Applications"
 brew cask install visual-studio-code
 brew cask install emacs
+brew cask install firefox
+brew cask install google-chrome
 brew cask install insomnia 
 brew cask install spotify
 brew cask install slack
 brew cask install the-unarchiver
 brew cask install transmission
-brew cask install google-chrome
-brew cask install firefox
-brew cask install mplayerx
+brew cask install vlc
 
 echo "~ Tools"
 brew install neovim
