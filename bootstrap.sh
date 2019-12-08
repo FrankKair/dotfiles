@@ -26,8 +26,9 @@ brew cask install vlc
 echo "~ Tools"
 brew install neovim
 brew install yarn
-brew install diff-so-fancy
+brew install fzf
 brew install bat
+brew install diff-so-fancy
 brew install rbenv
 
 echo "~ Programming Languages"
