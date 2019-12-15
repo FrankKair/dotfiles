@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh 
 echo "Starting setup\n"
 
 echo "OhMyZsh"
