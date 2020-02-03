@@ -34,6 +34,10 @@ brew install bat
 brew install diff-so-fancy
 brew install rbenv
 
+echo "~ vim-plug"
+curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
 echo "~ Programming Languages"
 brew install node
 brew install python3
