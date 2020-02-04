@@ -9,6 +9,15 @@ set softtabstop=2
 set expandtab
 set cursorline
 
+" Fuzzy search
+set path+=**
+
+" :b autocomplete any open buffer
+" <C-n> -> autocomplete
+
+" Display matching files + tab complete
+set wildmenu
+
 " Permanent undo
 set undodir=~/.vimdid
 set undofile
@@ -46,4 +55,4 @@ autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
 " Closes vim if NERDTree is the only window left open
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+autocmd bufenter * if (winnr("$") ==1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
