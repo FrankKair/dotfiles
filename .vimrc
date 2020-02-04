@@ -17,6 +17,7 @@ set path+=**
 
 " Display matching files + tab complete
 set wildmenu
+set wildignore=*~,*.png,*.jpg,*.gif,dist/*,*.settings,*.min.js,*.swp,publish/*,*.o
 
 " Permanent undo
 set undodir=~/.vimdid
