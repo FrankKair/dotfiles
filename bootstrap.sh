@@ -25,6 +25,7 @@ brew cask install slack
 brew cask install the-unarchiver
 brew cask install transmission
 brew cask install vlc
+brew cask install google-backup-and-sync
 
 echo "~ Tools"
 brew install neovim
