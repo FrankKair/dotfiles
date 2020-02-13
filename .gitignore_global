@@ -1,0 +1,16 @@
+.DS_Store
+#*#
+*/.#*
+.#*
+*/#*#
+*~
+*.class
+*.hi
+*.o
+*.dat
+*.swp
+.settings
+.project
+*.pyc
+__pycache__
+.vscode/settings.json
