@@ -1,9 +1,9 @@
-# This is Git's per-user configuration file.
 [user]
 	name = Frank Kair
 	email = frankkair@gmail.com
 [core]
   pager = diff-so-fancy | less -+X
+  editor = nvim
 [push]
   default = current
 [color]
