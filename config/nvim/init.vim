@@ -10,6 +10,7 @@ set expandtab
 set cursorline
 set guicursor=
 set mouse=a
+set splitbelow splitright
 
 " Fuzzy search
 set path+=**
