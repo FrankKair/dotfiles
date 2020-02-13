@@ -1,3 +1,3 @@
 ## Dotfiles
 
-.gitconfig, .vimrc, aliases and a bootstrap script to install apps and tools.
+.gitconfig, .vimrc, .zshrc and a bootstrap script to install apps and tools.
