@@ -8,6 +8,8 @@ set shiftwidth=2
 set softtabstop=2
 set expandtab
 set cursorline
+set guicursor=
+set mouse=a
 
 " Fuzzy search
 set path+=**
