@@ -45,6 +45,7 @@ brew install python3
 brew install lua
 brew install ocaml
 brew install opam
+brew install elm
 
 echo "~ ts-node"
 npm install -g ts-node
