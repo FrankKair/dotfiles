@@ -45,6 +45,10 @@ set ignorecase
 set smartcase
 nnoremap <CR> :nohlsearch<cr>
 
+" Toggles between buffers
+let mapleader = "\<Space>"
+nnoremap <leader><leader> <c-^>
+
 " Plugins
 call plug#begin('~/.vim/plugged')
 Plug 'preservim/nerdtree'
