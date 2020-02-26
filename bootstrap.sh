@@ -30,6 +30,7 @@ brew cask install google-backup-and-sync
 echo "~ Tools"
 brew install neovim
 brew install bat
+brew install exa
 brew install diff-so-fancy
 brew install fzf
 brew install yarn
