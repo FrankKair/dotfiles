@@ -75,11 +75,6 @@
    `(whitespace-tab ((t (:foreground ,gray-2))))
    `(whitespace-trailing ((t (:background ,red-3 :foreground ,yellow))))
 
-   ;; magit
-   `(magit-diff-add ((t (:foreground ,green))))
-   `(magit-diff-del ((t (:foreground ,red))))
-   `(magit-item-highlight ((t (:background ,gray-2))))
-
    ;; highlight-indentation-mode
    `(highlight-indentation-face ((t (:background ,gray-4))))
    `(highlight-indentation-current-column-face ((t (:background ,gray-3))))
