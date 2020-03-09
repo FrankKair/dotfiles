@@ -31,5 +31,9 @@
 (require 'pastel-tron-theme)
 (load-theme `pastel-tron t)
 
-;; Turns off alarm/bell sound 
 (setq ring-bell-function 'ignore)
+(tool-bar-mode -1)
+(setq evil-motion-state-cursor 'box)
+(setq evil-visual-state-cursor 'box)
+(setq evil-normal-state-cursor 'box)
+(setq evil-insert-state-cursor 'box)
