@@ -27,8 +27,10 @@ brew cask install transmission
 brew cask install vlc
 brew cask install google-backup-and-sync
 brew cask install rectangle
+brew cask install docker
 
 echo "~ Tools"
+brew install tmux
 brew install neovim
 brew install bat
 brew install exa
