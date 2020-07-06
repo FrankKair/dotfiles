@@ -27,6 +27,7 @@ brew cask install transmission
 brew cask install vlc
 brew cask install google-backup-and-sync
 brew cask install rectangle
+brew cask install stats
 brew cask install docker
 
 echo "~ Tools"
