@@ -13,3 +13,9 @@ alias ip='ifconfig | grep "inet " | grep -Fv 127.0.0.1 | cut -f 2 -d " "'
 alias hgi='history | grep -i'
 alias gcane='git commit --amend --no-edit'
 alias tree='exa --tree'
+function cs () { cd "$@" && ls }
+function o () {
+	if [ $# -eq 0 ]; then open .;
+	else open "$@";
+	fi;
+}
