@@ -15,6 +15,7 @@ echo "git-open plugin"
 git clone https://github.com/paulirish/git-open.git $ZSH_CUSTOM/plugins/git-open
 
 echo "~ Applications"
+brew cask install alacritty
 brew cask install visual-studio-code
 brew cask install emacs
 brew cask install firefox

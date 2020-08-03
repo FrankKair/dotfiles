@@ -1,0 +1,17 @@
+window:
+  #dimensions:
+  #  columns: 0
+  #  lines: 0
+
+  padding:
+    x: 10
+    y: 10
+
+  decorations: none
+
+scrolling:
+  history: 10000
+
+font:
+  size: 14.0
+
