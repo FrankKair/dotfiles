@@ -15,3 +15,7 @@ scrolling:
 font:
   size: 14.0
 
+key_bindings:
+  - { key: L, mods: Alt, chars: "\x1bf" }
+  - { key: H, mods: Alt, chars: "\x1bb" }
+
