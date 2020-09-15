@@ -18,6 +18,7 @@ echo "~ Applications"
 brew cask install the-unarchiver
 brew cask install transmission
 brew cask install vlc
+brew cask install calibre
 
 brew cask install rectangle
 brew cask install stats
