@@ -41,6 +41,7 @@ brew cask install docker
 
 brew install tmux
 brew install neovim
+brew install ripgrep
 brew install bat
 brew install exa
 brew install diff-so-fancy
