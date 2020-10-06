@@ -39,6 +39,8 @@ brew cask install insomnia
 brew cask install postman
 brew cask install docker
 
+echo "~ CLIs"
+brew install translate-shell
 brew install tmux
 brew install neovim
 brew install ripgrep
