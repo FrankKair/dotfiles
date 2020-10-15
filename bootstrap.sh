@@ -48,6 +48,7 @@ brew install bat
 brew install exa
 brew install diff-so-fancy
 brew install shellcheck
+brew install infer
 brew install fzf
 brew install yarn
 
