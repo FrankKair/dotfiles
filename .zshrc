@@ -19,3 +19,5 @@ function o () {
 	else open "$@";
 	fi;
 }
+function ctx () { history | rg "$1" -C "$2" }
+
