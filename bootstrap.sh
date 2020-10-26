@@ -25,6 +25,7 @@ brew cask install stats
 brew cask install alt-tab
 brew cask install maccy
 brew cask install clipy
+brew cask install hiddenbar
 brew cask install openinterminal
 
 brew cask install firefox
