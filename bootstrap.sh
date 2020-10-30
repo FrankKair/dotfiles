@@ -21,7 +21,7 @@ brew cask install vlc
 brew cask install calibre
 
 brew cask install rectangle
-brew cask install stats
+brew cask install eul
 brew cask install alt-tab
 brew cask install maccy
 brew cask install clipy
