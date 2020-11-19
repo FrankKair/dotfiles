@@ -1,7 +1,7 @@
 #!/bin/sh
 
-CASKS=$(brew cask list)
+CASKS=$(brew list --cask)
 for caskname in $CASKS
 do
-  brew cask upgrade "$caskname"
+  brew upgrade --cask "$caskname"
 done
