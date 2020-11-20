@@ -27,6 +27,7 @@ brew cask install maccy
 brew cask install clipy
 brew cask install hiddenbar
 brew cask install openinterminal
+brew cask install fsnotes
 
 brew cask install firefox
 brew cask install google-chrome
