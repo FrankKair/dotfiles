@@ -1,0 +1,17 @@
+{
+  "telemetry.enableTelemetry": false,
+  "telemetry.enableCrashReporter": false,
+  "workbench.settings.editor": "json",
+  "workbench.activityBar.visible": false,
+  "workbench.statusBar.visible": false,
+  "workbench.colorTheme": "Default Dark+",
+  "editor.minimap.enabled": false,
+  "editor.lineNumbers": "relative",
+  "editor.formatOnSave": true,
+  "editor.cursorStyle": "block",
+  "editor.tabSize": 2,
+  "editor.fontSize": 15,
+  "editor.renderLineHighlight": "gutter",
+  "window.zoomLevel": 0,
+  "prettier.configPath": "/Users/frankkair/.config/prettierrc"
+}
