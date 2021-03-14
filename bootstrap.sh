@@ -15,34 +15,34 @@ echo "git-open plugin"
 git clone https://github.com/paulirish/git-open.git $ZSH_CUSTOM/plugins/git-open
 
 echo "~ Applications"
-brew cask install the-unarchiver
-brew cask install transmission
-brew cask install vlc
-brew cask install calibre
-brew cask install anki
+brew install --cask the-unarchiver
+brew install --cask transmission
+brew install --cask vlc
+brew install --cask calibre
+brew install --cask anki
 
-brew cask install rectangle
-brew cask install eul
-brew cask install alt-tab
-brew cask install maccy
-brew cask install clipy
-brew cask install hiddenbar
-brew cask install openinterminal
-brew cask install fsnotes
+brew install --cask rectangle
+brew install --cask eul
+brew install --cask alt-tab
+brew install --cask maccy
+brew install --cask clipy
+brew install --cask hiddenbar
+brew install --cask openinterminal
+brew install --cask fsnotes
 
-brew cask install firefox
-brew cask install google-chrome
-brew cask install google-backup-and-sync
-brew cask install spotify
-brew cask install slack
+brew install --cask firefox
+brew install --cask google-chrome
+brew install --cask google-backup-and-sync
+brew install --cask spotify
+brew install --cask slack
 
 echo "~ Developer tools"
-brew cask install alacritty
-brew cask install visual-studio-code
-brew cask install emacs
-brew cask install insomnia 
-brew cask install postman
-brew cask install docker
+brew install --cask alacritty
+brew install --cask visual-studio-code
+brew install --cask emacs
+brew install --cask insomnia 
+brew install --cask postman
+brew install --cask docker
 
 echo "~ CLIs"
 brew install translate-shell
