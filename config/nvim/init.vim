@@ -11,6 +11,9 @@ set guicursor=
 set mouse=a
 set splitbelow splitright
 
+" Don't know if useful... ???
+" set lazyredraw
+
 " Fuzzy search
 set path+=**
 
@@ -25,7 +28,6 @@ set wildignore=*~,*.png,*.jpg,*.gif,dist/*,*.settings,*.min.js,*.swp,publish/*,*
 set undodir=~/.vimdid
 set undofile
 
-"
 command! W :w
 
 " Navigating display lines
@@ -45,9 +47,10 @@ set ignorecase
 set smartcase
 nnoremap <CR> :nohlsearch<cr>
 
-" Toggles between buffers
+" Buffers
 let mapleader = "\<Space>"
 nnoremap <leader><leader> <c-^>
+nnoremap <leader>b :ls<CR>:b<Space>
 
 " Plugins
 call plug#begin('~/.vim/plugged')
