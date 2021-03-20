@@ -29,6 +29,7 @@ brew install --cask clipy
 brew install --cask hiddenbar
 brew install --cask openinterminal
 brew install --cask fsnotes
+brew install --cask background-music
 
 brew install --cask firefox
 brew install --cask google-chrome
@@ -56,6 +57,7 @@ brew install shellcheck
 brew install infer
 brew install fzf
 brew install yarn
+brew install screenfetch
 
 echo "~ vim-plug"
 curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
