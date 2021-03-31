@@ -20,6 +20,7 @@ brew install --cask transmission
 brew install --cask vlc
 brew install --cask calibre
 brew install --cask anki
+brew install --cask basictex
 
 brew install --cask rectangle
 brew install --cask eul
@@ -46,6 +47,7 @@ brew install --cask postman
 brew install --cask docker
 
 echo "~ CLIs"
+brew install pandoc
 brew install translate-shell
 brew install tmux
 brew install neovim
