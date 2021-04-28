@@ -31,6 +31,7 @@ brew install --cask hiddenbar
 brew install --cask openinterminal
 brew install --cask fsnotes
 brew install --cask background-music
+brew install --cask mouse-fix
 
 brew install --cask firefox
 brew install --cask google-chrome
