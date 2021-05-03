@@ -23,6 +23,7 @@ brew install --cask anki
 brew install --cask basictex
 
 brew install --cask rectangle
+brew install --cask amethyst
 brew install --cask eul
 brew install --cask alt-tab
 brew install --cask maccy
