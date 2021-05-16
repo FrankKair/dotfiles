@@ -1,2 +1,2 @@
-ctrl + alt + cmd - space : open -na /usr/local/bin/alacritty
+cmd - return: open -na /usr/local/bin/alacritty
 
