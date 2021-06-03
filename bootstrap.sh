@@ -35,8 +35,10 @@ brew install --cask background-music
 brew install --cask mouse-fix
 brew install --cask fontforge
 
+brew install --cask brave-browser
 brew install --cask firefox
 brew install --cask google-chrome
+
 brew install --cask google-backup-and-sync
 brew install --cask spotify
 brew install --cask slack
