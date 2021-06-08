@@ -1,7 +1,7 @@
 window:
   dimensions:
-    columns: 120
-    lines: 35
+    columns: 147
+    lines: 45
 
   # Window position (changes require restart)
   #
