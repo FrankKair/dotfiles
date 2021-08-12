@@ -69,7 +69,7 @@ Plug 'dense-analysis/ale'
 call plug#end()
 
 " Search with ripgrep
-noremap <leader>s :Rg<Space>
+noremap <leader>f :Rg<Space>
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'relative': v:true } }
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
