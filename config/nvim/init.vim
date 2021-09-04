@@ -41,6 +41,16 @@ nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
 
+" Splits
+nnoremap vs :vs<CR>
+nnoremap sp :sp<CR>
+
+" Tabs
+nnoremap tn :tabnew<CR>
+nnoremap { :tabprev<CR>
+nnoremap } :tabnext<CR>
+nnoremap to :tabo<CR>
+
 " Search
 set hlsearch
 set incsearch
