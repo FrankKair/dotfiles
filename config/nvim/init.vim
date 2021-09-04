@@ -41,16 +41,6 @@ nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
 
-" Splits
-nnoremap vs :vs<CR>
-nnoremap sp :sp<CR>
-
-" Tabs
-nnoremap tn :tabnew<CR>
-nnoremap { :tabprev<CR>
-nnoremap } :tabnext<CR>
-nnoremap to :tabo<CR>
-
 " Search
 set hlsearch
 set incsearch
@@ -69,6 +59,25 @@ let mapleader = "\<Space>"
 nnoremap <leader><leader> <c-^>
 nnoremap <leader>; :Buffers<CR>
 
+" Terminal
+map <Leader>tt :vnew term://zsh<CR>
+
+" Splits
+nnoremap vs :vs<CR>
+nnoremap sp :sp<CR>
+noremap <silent> <M-Left> :vertical resize +3<CR>
+noremap <silent> <M-Right> :vertical resize -3<CR>
+noremap <silent> <M-Up> :resize +3<CR>
+noremap <silent> <M-Down> :resize -3<CR>
+map <Leader>th <C-w>t<C-w>H
+map <Leader>tk <C-w>t<C-w>K
+
+" Tabs
+nnoremap tn :tabnew<CR>
+nnoremap { :tabprev<CR>
+nnoremap } :tabnext<CR>
+nnoremap to :tabo<CR>
+
 " Plugins
 call plug#begin('~/.vim/plugged')
 Plug 'preservim/nerdtree'
@@ -80,7 +89,7 @@ call plug#end()
 
 " Search with ripgrep
 noremap <leader>f :Rg<Space>
-let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'relative': v:true } }
+let g:fzf_layout = { 'window': { 'width': 1, 'height': 0.8, 'relative': v:true } }
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
   \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
