@@ -57,6 +57,7 @@ brew install pandoc
 brew install translate-shell
 brew install tmux
 brew install neovim
+brew install gitui
 brew install ripgrep
 brew install bat
 brew install exa
