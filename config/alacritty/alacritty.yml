@@ -455,15 +455,8 @@ colors:
 # in the order they were defined in.
 
 key_bindings:
-  - { key: Left,        mods: Alt,             chars: "\x1Bb"           }
-  - { key: Left,        mods: Alt|Shift,       chars: "\x1B\x1B[D"      }
-  - { key: Right,       mods: Alt,             chars: "\x1Bf"           }
-  - { key: Right,       mods: Alt|Shift,       chars: "\x1B\x1B[C"      }
-  - { key: Down,        mods: Alt,             chars: "\x1B\x1B[B"      }
-  - { key: Down,        mods: Alt|Shift,       chars: "\x1B\x1B[B"      }
-  - { key: Up,          mods: Alt,             chars: "\x1B\x1B[A"      }
-  - { key: Up,          mods: Alt|Shift,       chars: "\x1B\x1B[A"      }
-
+  - { key: L, mods: Alt, chars: "\x1bf" }
+  - { key: H, mods: Alt, chars: "\x1bb" }
   #- { key: Paste,                                action: Paste          }
   #- { key: Copy,                                 action: Copy           }
   #- { key: L,         mods: Control,             action: ClearLogNotice }
