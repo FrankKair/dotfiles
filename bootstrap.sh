@@ -38,6 +38,7 @@ brew install --cask fontforge
 brew install --cask brave-browser
 brew install --cask firefox
 brew install --cask google-chrome
+brew install --cask finicky
 
 brew install --cask google-backup-and-sync
 brew install --cask spotify
