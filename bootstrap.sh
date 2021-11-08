@@ -34,6 +34,7 @@ brew install --cask fsnotes
 brew install --cask background-music
 brew install --cask mouse-fix
 brew install --cask fontforge
+brew install --cask lunar
 
 brew install --cask brave-browser
 brew install --cask firefox
