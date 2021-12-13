@@ -12,6 +12,7 @@ alias zrc='nvim ~/.zshrc'
 alias ip='ifconfig | grep "inet " | grep -Fv 127.0.0.1 | cut -f 2 -d " "'
 alias hgi='history | grep -i'
 alias gcane='git commit --amend --no-edit && git push --force'
+alias gprune="git branch --merged master | grep -v '^[ *]*master$' | xargs git branch -d"
 alias tree='exa --tree'
 alias ls='exa'
 alias cat='bat --decorations=never'
