@@ -74,22 +74,3 @@ brew install koekeishiya/formulae/skhd
 echo "~ vim-plug"
 curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
-echo "~ Programming Languages"
-brew install node
-brew install typescript
-brew install go
-brew install python3
-brew install lua
-brew install ocaml
-brew install opam
-brew install elm
-
-echo "~ nvm (node version manager)"
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
-
-echo "~ ts-node"
-npm install -g ts-node
-
-echo "~ rustup"
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
