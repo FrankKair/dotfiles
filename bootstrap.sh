@@ -59,6 +59,7 @@ brew install pandoc
 brew install translate-shell
 brew install tmux
 brew install neovim
+brew install tig
 brew install gitui
 brew install ripgrep
 brew install bat
