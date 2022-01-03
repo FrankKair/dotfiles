@@ -80,6 +80,8 @@ nnoremap to :tabo<CR>
 
 " Plugins
 call plug#begin('~/.vim/plugged')
+Plug 'tpope/vim-fugitive'
+Plug 'neovim/nvim-lspconfig'
 Plug 'preservim/nerdtree'
 Plug 'airblade/vim-rooter'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
