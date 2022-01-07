@@ -71,6 +71,7 @@ brew install fzf
 brew install yarn
 brew install screenfetch
 brew install koekeishiya/formulae/skhd
+brew install gh
 
 echo "~ vim-plug"
 curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
