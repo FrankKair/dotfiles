@@ -10,10 +10,6 @@ echo "Homebrew"
 echo "xcode-select install"
 xcode-select --install
 
-echo "git-open plugin"
-# Don't forget to add git-open to .zshrc plugin=(... git-open)
-git clone https://github.com/paulirish/git-open.git $ZSH_CUSTOM/plugins/git-open
-
 echo "~ Applications"
 brew install --cask the-unarchiver
 brew install --cask transmission
@@ -23,25 +19,16 @@ brew install --cask anki
 brew install --cask basictex
 
 brew install --cask rectangle
-brew install --cask amethyst
-brew install --cask eul
-brew install --cask alt-tab
 brew install --cask maccy
 brew install --cask clipy
 brew install --cask hiddenbar
-brew install --cask openinterminal
-brew install --cask fsnotes
-brew install --cask background-music
 brew install --cask mouse-fix
 brew install --cask fontforge
-brew install --cask lunar
 
-brew install --cask brave-browser
 brew install --cask firefox
-brew install --cask google-chrome
 brew install --cask finicky
 
-brew install --cask google-backup-and-sync
+brew install --cask google-drive
 brew install --cask spotify
 brew install --cask slack
 
@@ -55,24 +42,37 @@ brew install --cask postman
 brew install --cask docker
 
 echo "~ CLIs"
-brew install pandoc
-brew install translate-shell
-brew install tmux
 brew install neovim
 brew install tig
 brew install gitui
+brew install diff-so-fancy
+brew install gh
+
+brew install fzf
 brew install ripgrep
 brew install bat
 brew install exa
-brew install diff-so-fancy
+
+brew install pandoc
+brew install translate-shell
+brew install tmux
+
 brew install shellcheck
 brew install infer
-brew install fzf
-brew install yarn
-brew install screenfetch
+
 brew install koekeishiya/formulae/skhd
-brew install gh
 
 echo "~ vim-plug"
 curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+#brew install screenfetch
+#brew install --cask google-chrome
+#brew install --cask brave-browser
+#brew install --cask openinterminal
+#brew install --cask amethyst
+#brew install --cask lunar
+#brew install --cask fsnotes
+#brew install --cask background-music
+#brew install --cask eul
+#brew install --cask alt-tab
