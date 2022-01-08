@@ -13,6 +13,7 @@ vim.cmd [[
   set mouse=a
   set splitbelow splitright
   set clipboard=unnamed
+  set scrolloff=5
   
   " Display matching files + tab complete
   set wildmenu
