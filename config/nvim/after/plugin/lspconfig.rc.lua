@@ -1,8 +1,8 @@
-if !exists('g:lspconfig')
-  finish
-endif
+local status_ok, _ = pcall(require, 'lspconfig')
+if not status_ok then
+  return
+end
 
-lua << EOF
 local nvim_lsp = require('lspconfig')
 
 -- Use an on_attach function to only map the following keys
@@ -48,5 +48,3 @@ for _, lsp in ipairs(servers) do
     }
   }
 end
-EOF
-
