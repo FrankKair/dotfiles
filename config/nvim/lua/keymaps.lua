@@ -37,4 +37,3 @@ map('n', 'tn', ':tabnew<CR>', opts)
 map('n', '{', ':tabprev<CR>', opts)
 map('n', '}',  ':tabnext<CR>', opts)
 map('n', 'to', ':tabo<CR>', opts)
-

@@ -17,6 +17,8 @@ Plug('nvim-telescope/telescope.nvim')
 Plug('kyazdani42/nvim-web-devicons')
 Plug('pwntester/octo.nvim')
 
+Plug('nvim-lualine/lualine.nvim')
+
 vim.call('plug#end')
 
 vim.cmd [[
