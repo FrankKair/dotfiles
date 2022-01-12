@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-echo "Starting setup\n"
+echo "Starting setup"
 
 echo "OhMyZsh"
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
@@ -9,6 +9,10 @@ echo "Homebrew"
 
 echo "xcode-select install"
 xcode-select --install
+
+echo "Nerd fonts"
+brew tap homebrew/cask-fonts
+brew cask install font-hack-nerd-font
 
 echo "~ Applications"
 brew install --cask the-unarchiver

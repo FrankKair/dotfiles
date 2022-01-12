@@ -30,7 +30,19 @@ window:
   #multiplier: 3
 
 font:
-  size: 16.0
+  size: 15.0
+
+  normal:
+    family: "Hack Nerd Font"
+    style: Regular
+
+  bold:
+    family: "Hack Nerd Font"
+    style: Bold
+
+  italic:
+    family: "Hack Nerd Font"
+    style: Italic
 
 # Colors (Tomorrow Night)
 colors:
