@@ -14,7 +14,7 @@ vim.cmd [[
   set splitbelow splitright
   set clipboard=unnamed
   set scrolloff=5
-  
+
   " Display matching files + tab complete
   set wildmenu
   set wildignore=*~,*.png,*.jpg,*.gif,dist/*,*.settings,*.min.js,*.swp,publish/*,*.o
@@ -30,12 +30,6 @@ vim.cmd [[
   noremap j gj
   noremap k gk
   
-  " Window navigation
-  nnoremap <c-j> <c-w>j
-  nnoremap <c-k> <c-w>k
-  nnoremap <c-h> <c-w>h
-  nnoremap <c-l> <c-w>l
-  
   " Search
   set hlsearch
   set incsearch
@@ -49,28 +43,4 @@ vim.cmd [[
   nnoremap <silent> * *zz
   nnoremap <silent> # #zz
   nnoremap <silent> g* g*zz
-  
-  " Buffers
-  let mapleader = "\<Space>"
-  nnoremap <Leader><Leader> <c-^>
-  nnoremap <Leader>; :Buffers<CR>
-  
-  " Terminal
-  map <Leader>tt :vnew term://zsh<CR>
-  
-  " Splits
-  nnoremap vs :vs<CR>
-  nnoremap sp :sp<CR>
-  noremap <silent> <M-Left> :vertical resize +3<CR>
-  noremap <silent> <M-Right> :vertical resize -3<CR>
-  noremap <silent> <M-Up> :resize +3<CR>
-  noremap <silent> <M-Down> :resize -3<CR>
-  map <Leader>th <C-w>t<C-w>H
-  map <Leader>tk <C-w>t<C-w>K
-  
-  " Tabs
-  nnoremap tn :tabnew<CR>
-  nnoremap { :tabprev<CR>
-  nnoremap } :tabnext<CR>
-  nnoremap to :tabo<CR>
 ]]

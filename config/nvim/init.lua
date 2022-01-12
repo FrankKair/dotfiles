@@ -1,5 +1,4 @@
--- Basics
 require('basics')
-
--- Plugins
+require('keymaps')
 require('plug')
+
