@@ -19,6 +19,8 @@ Plug('pwntester/octo.nvim')
 
 Plug('nvim-lualine/lualine.nvim')
 
+Plug('folke/tokyonight.nvim', { branch = 'main' })
+
 vim.call('plug#end')
 
 vim.cmd [[
