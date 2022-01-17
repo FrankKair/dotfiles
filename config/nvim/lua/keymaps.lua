@@ -2,7 +2,7 @@ local map = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
 -- local term_opts = { silent = true }
 
--- Remap space as leader key
+-- Leader key
 map('', '<Space>', '<Nop>', opts)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
@@ -15,7 +15,7 @@ map('n', '<c-l>', '<c-w>l', opts)
 
 -- Buffers
 map('n', '<Leader><Leader>', '<c-^>', opts)
-map('n', '<Leader>;', ':Buffers<CR>', opts)
+map('n', '<Leader>w', ':bp <BAR> bd # <CR>', opts)
 
 -- Terminal
 map('n', '<Leader>tt', ':vnew term://zsh<CR>', opts)
@@ -34,6 +34,6 @@ map('n', '<Leader>tk', '<C-w>t<C-w>K', opts)
 
 -- Tabs
 map('n', 'tn', ':tabnew<CR>', opts)
-map('n', '{', ':tabprev<CR>', opts)
-map('n', '}',  ':tabnext<CR>', opts)
-map('n', 'to', ':tabo<CR>', opts)
+--map('n', '{', ':tabprev<CR>', opts)
+--map('n', '}',  ':tabnext<CR>', opts)
+--map('n', 'to', ':tabo<CR>', opts)

@@ -2,8 +2,7 @@ vim.cmd [[
   set number
   set relativenumber
   syntax on
-  "set termguicolors
-  "color default
+  set termguicolors
   filetype plugin indent on
   set tabstop=2
   set shiftwidth=2
