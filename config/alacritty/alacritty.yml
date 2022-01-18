@@ -39,6 +39,8 @@ key_bindings:
   # Command / -> Comment
   - { key: Slash, mods: Command, chars: "gcc" }
 
+  - { key: Key3, mods: Option, chars: "#" }
+
   # Rename the current tmux window
   - { key: Comma, mods: Command, chars: "\x02\x2c" }
   # Select a new tmux session for the attached client interactively
