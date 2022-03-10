@@ -32,6 +32,10 @@ map('n', '<M-Down>', ':resize -3<CR>', opts)
 map('n', '<Leader>th', '<C-w>t<C-w>H', opts)
 map('n', '<Leader>tk', '<C-w>t<C-w>K', opts)
 
+-- Print file path && copy file path to clipboard
+map('n', '<Leader>p', ":echo expand('%')<CR>", opts)
+map('n', '<Leader>pp', ":call system('pbcopy', expand('%'))<CR>", opts)
+
 -- Tabs
 map('n', 'tn', ':tabnew<CR>', opts)
 --map('n', '{', ':tabprev<CR>', opts)
