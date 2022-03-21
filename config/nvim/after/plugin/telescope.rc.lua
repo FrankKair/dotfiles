@@ -1,6 +1,15 @@
 local map = vim.api.nvim_set_keymap
 local opts = { noremap = true }
 
+-- Performance improvement
+require "telescope".setup {
+  defaults = {
+    preview = {
+      treesitter = false
+    }
+  }
+}
+
 map('n', '<Leader>f', '<cmd>Telescope find_files<CR>', opts)
 map('n', '<Leader>b', '<cmd>Telescope buffers<CR>', opts)
 map('n', '<Leader>g', '<cmd>Telescope live_grep<CR>', opts)
