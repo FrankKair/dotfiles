@@ -10,7 +10,7 @@ require "telescope".setup {
   }
 }
 
-map('n', '<Leader>f', '<cmd>Telescope find_files<CR>', opts)
+-- map('n', '<Leader>f', '<cmd>Telescope find_files<CR>', opts)
 map('n', '<Leader>b', '<cmd>Telescope buffers<CR>', opts)
 map('n', '<Leader>g', '<cmd>Telescope live_grep<CR>', opts)
 map('n', '<Leader>h', '<cmd>Telescope help_tags<CR>', opts)

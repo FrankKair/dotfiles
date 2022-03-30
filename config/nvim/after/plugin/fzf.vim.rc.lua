@@ -6,4 +6,7 @@ vim.cmd [[
     \   <bang>0 ? fzf#vim#with_preview('up:60%')
     \           : fzf#vim#with_preview('right:50%:hidden', '?'),
     \   <bang>0)
+
+  " Files with fzf
+  noremap <Leader>f :Files<CR>
 ]]
