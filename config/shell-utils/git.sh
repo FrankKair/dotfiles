@@ -1,5 +1,6 @@
 alias gcane='git commit --amend --no-edit && git push --force'
-alias gbc='git checkout $(git branch | fzf)'
+alias gb='git checkout $(git branch | fzf)'
+alias gbc='git branch | cat'
 alias gprune="git branch --merged master | grep -v '^[ *]*master$' | xargs git branch -d"
 
 gshow () {
