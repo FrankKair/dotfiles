@@ -12,6 +12,11 @@ gshow () {
   fi
 }
 
+prdiff () {
+  PULL_REQUEST=$(gh pr list | fzf | awk '{print $1}')
+  eval "gh pr diff $PULL_REQUEST"
+}
+
 setupstreambranch () {
   # BRANCH=`git branch | cat | grep -i '*' | cut -c 3-`
   BRANCH=$(git branch --show-current)
