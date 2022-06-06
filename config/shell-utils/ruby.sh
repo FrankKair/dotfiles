@@ -1,7 +1,7 @@
 # Run RSpec inside of Docker
 dspec () {
   if [ $# -eq 0 ]; then
-    echo "Path to a spec file missing"
+    docker-compose build && docker-compose run web bundle exec rspec spec
   else
     docker-compose build && docker-compose run web bundle exec rspec "$1"
   fi
