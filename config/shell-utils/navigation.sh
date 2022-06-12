@@ -5,9 +5,9 @@ cs () {
 
 # open dir or file
 o () {
-	if [ $# -eq 0 ]; then open .;
-	else open "$@";
-	fi;
+  if [ $# -eq 0 ]; then open .;
+  else open "$@";
+  fi;
 }
 
 # Shortcuts
