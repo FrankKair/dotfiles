@@ -11,17 +11,9 @@ Plug('airblade/vim-rooter')
 Plug('junegunn/fzf', { dir = '~/.fzf' })
 Plug('junegunn/fzf.vim')
 Plug('dense-analysis/ale')
-
-Plug('nvim-lua/plenary.nvim')
-Plug('nvim-telescope/telescope.nvim')
-Plug('kyazdani42/nvim-web-devicons')
-Plug('pwntester/octo.nvim')
-
 Plug('numToStr/Comment.nvim')
-
 Plug('nvim-lualine/lualine.nvim')
 Plug('akinsho/bufferline.nvim')
-
 Plug('folke/tokyonight.nvim', { branch = 'main' })
 
 vim.call('plug#end')

@@ -9,4 +9,5 @@ vim.cmd [[
 
   " Files with fzf
   noremap <Leader>f :Files<CR>
+  noremap <Leader>g :Rg<Space><CR>
 ]]
