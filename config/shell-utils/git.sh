@@ -17,6 +17,11 @@ prdiff () {
   eval "gh pr diff $PULL_REQUEST"
 }
 
+issueview () {
+  ISSUE=$(gh issue list | fzf | awk '{print $1}')
+  eval "gh issue view --comments $ISSUE"
+}
+
 setupstreambranch () {
   # BRANCH=`git branch | cat | grep -i '*' | cut -c 3-`
   BRANCH=$(git branch --show-current)
