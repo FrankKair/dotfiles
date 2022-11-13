@@ -12,5 +12,6 @@ source $ZSH/oh-my-zsh.sh
 . $HOME/.config/shell-utils/git.sh
 . $HOME/.config/shell-utils/navigation.sh
 . $HOME/.config/shell-utils/ruby.sh
+. $HOME/.config/shell-utils/ocaml.sh
 . $HOME/.config/shell-utils/fzf.sh
 . $HOME/.config/shell-utils/nvm.sh
