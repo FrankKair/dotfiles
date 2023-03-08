@@ -16,3 +16,5 @@ source $ZSH/oh-my-zsh.sh
 . $HOME/.config/shell-utils/nvm.sh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# Search for dotfiles and ignore git files
+export FZF_DEFAULT_COMMAND="rg --files --follow --no-ignore-vcs --hidden -g '!{**/.git/*}'"
