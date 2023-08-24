@@ -1,4 +1,3 @@
-require('basics')
+require('options')
 require('keymaps')
-require('plug')
-require('colorscheme')
+require('plugins')

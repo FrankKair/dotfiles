@@ -1,5 +1,4 @@
 vim.cmd [[
-  " NERDTree
   map <C-n> :NERDTreeToggle<CR>
   
   " Opens NERDTree automatically with no files specified
