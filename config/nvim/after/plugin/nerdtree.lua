@@ -7,4 +7,6 @@ vim.cmd [[
   
   " Closes vim if NERDTree is the only window left open
   autocmd bufenter * if (winnr("$") ==1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+  let NERDTreeShowHidden=1
 ]]
