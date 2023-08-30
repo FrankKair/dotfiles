@@ -36,9 +36,19 @@ vim.keymap.set('n', '<c-j>', '<c-w>j', opts)
 vim.keymap.set('n', '<c-k>', '<c-w>k', opts)
 vim.keymap.set('n', '<c-l>', '<c-w>l', opts)
 
+-- Splits
+vim.keymap.set('n', 'vs', ':vs<CR>', opts)
+vim.keymap.set('n', 'sp', ':sp<CR>', opts)
+
 -- Buffers
 vim.keymap.set('n', '<leader><leader>', '<c-^>', opts)
 vim.keymap.set('n', '<Leader>w', ':bp <BAR> bd # <CR>', opts)
+
+-- Path
+-- prints current file path
+vim.keymap.set('n', '<Leader>p', ":echo expand('%')<CR>", opts)
+ -- copies current file path
+vim.keymap.set('n', '<Leader>pp', ":call system('pbcopy', expand('%'))<CR>", opts)
 
 -- Terminal
 vim.keymap.set('n', '<Leader>tt', ':vnew term://zsh<CR>', opts)
