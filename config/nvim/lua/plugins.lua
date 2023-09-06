@@ -45,13 +45,7 @@ require('lazy').setup({
   { 'folke/which-key.nvim', opts = {} },
 
   -- Theme inspired by Atom
-  {
-    'navarasu/onedark.nvim',
-    priority = 1000,
-    config = function()
-      vim.cmd.colorscheme('onedark')
-    end,
-  },
+  'navarasu/onedark.nvim',
 
   -- NOTE: This is where your plugins related to LSP can be installed.
   --  The configuration is done below. Search for lspconfig to find it below.
