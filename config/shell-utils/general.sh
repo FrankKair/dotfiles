@@ -4,19 +4,15 @@ alias ls='exa'
 alias cat='bat --decorations=never'
 alias charge="system_profiler SPPowerDataType | grep "State of Charge" | awk '{print $5}'"
 alias weather='curl http://wttr.in/London'
-alias dtest='docker-compose exec web bundle exec rake spec'
-
-# alias hgi='history | grep -i'
-# alias brew-deps='brew deps --tree --installed'
-# alias brew-deps-detailed='brew leaves | xargs brew deps --include-build --tree'
-# alias docker-cleanup='docker system prune --volumes -f'
-# alias docker-sage='docker system df -v'
 
 timezones () {
-  BAY=$(env TZ=US/Pacific date)
+  SAN_FRANCISCO=$(env TZ=US/Pacific date)
+  NEW_YORK=$(env TZ=America/New_York date)
+  FLORIANOPOLIS=$(env TZ=America/Sao_Paulo date)
   LONDON=$(env TZ=Europe/London date)
-  SEOUL=$(env TZ=Asia/Seoul date)
-  echo "SAN FRANCISCO => $BAY"
+
+  echo "SAN FRANCISCO => $SAN_FRANCISCO"
+  echo "NEW YORK CITY => $NEW_YORK"
+  echo "FLORIANÓPOLIS => $FLORIANOPOLIS"
   echo "LONDON        => $LONDON"
-  echo "SEOUL         => $SEOUL"
 }
