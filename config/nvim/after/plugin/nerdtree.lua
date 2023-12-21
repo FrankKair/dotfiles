@@ -9,4 +9,5 @@ vim.cmd [[
   autocmd bufenter * if (winnr("$") ==1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
   let NERDTreeShowHidden=1
+  let NERDTreeRespectWildIgnore=1
 ]]

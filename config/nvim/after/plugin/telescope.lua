@@ -6,7 +6,8 @@ local fb_actions = require('telescope').extensions.file_browser.actions
 require('telescope').setup {
   defaults = {
     file_ignore_patterns = {
-      '.git/'
+      '.git/',
+      '.DS_Store'
     },
     mappings = {
       i = {
@@ -57,7 +58,7 @@ end, { desc = '[/] Fuzzily search in current buffer' })
 
 vim.keymap.set('n', '<leader>F', function()
   require('telescope').extensions.file_browser.file_browser({
-    respect_gitignore = false,
+    respect_gitignore = true,
     hidden = true,
     grouped = true,
     previewer = false,

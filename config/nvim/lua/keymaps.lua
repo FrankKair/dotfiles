@@ -1,7 +1,3 @@
--- [[ Basic Keymaps ]]
-
--- Keymaps for better default experience
--- See `:help vim.keymap.set()`
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 

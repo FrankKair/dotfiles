@@ -1,6 +1,4 @@
--- [[ Setting options ]]
--- See `:help vim.o`
--- NOTE: You can change these options as you wish!
+vim.o.wildignore = vim.o.wildignore .. '*.pyc,*.o,*.swp,*.DS_Store'
 
 -- Set highlight on search
 vim.o.hlsearch = true
