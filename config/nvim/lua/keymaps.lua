@@ -48,3 +48,4 @@ vim.keymap.set('n', '<leader>pp', ":call system('pbcopy', expand('%'))<CR>", opt
 
 -- Terminal
 vim.keymap.set('n', '<leader>tt', ':vnew term://zsh<CR>', opts)
+vim.keymap.set('t', '<Esc>', '<C-\\><C-n>', opts)
