@@ -11,10 +11,18 @@ o () {
 }
 
 # find & open
-fo () {
-  local file
-  file=$(fzf) && open "$file"
+fo() {
+    local file
+    local opener="open"
+
+    if [ -n "$1" ]; then
+        opener="$1"
+        shift
+    fi
+
+    file=$(fzf) && $opener "$file"
 }
+
 
 # Shortcuts
 alias zrc='nvim ~/.zshrc'
