@@ -10,6 +10,12 @@ o () {
   fi;
 }
 
+# find & open
+fo () {
+  local file
+  file=$(fzf) && open "$file"
+}
+
 # Shortcuts
 alias zrc='nvim ~/.zshrc'
 alias notes='nvim ~/Documents/notes'
