@@ -40,12 +40,13 @@ vim.keymap.set('n', 'sp', ':sp<CR>', opts)
 vim.keymap.set('n', '<leader><leader>', '<c-^>', opts)
 vim.keymap.set('n', '<leader>w', ':bp <BAR> bd # <CR>', opts)
 
--- Path
--- prints current file path
-vim.keymap.set('n', '<leader>p', ":echo expand('%')<CR>", opts)
- -- copies current file path
-vim.keymap.set('n', '<leader>pp', ":call system('pbcopy', expand('%'))<CR>", opts)
+-- Path (print & copy)
+vim.keymap.set('n', '<leader>pp', ":echo expand('%')<CR>", opts)
+vim.keymap.set('n', '<leader>cp', ":call system('pbcopy', expand('%'))<CR>", opts)
 
 -- Terminal
 vim.keymap.set('n', '<leader>tt', ':vnew term://zsh<CR>', opts)
 vim.keymap.set('t', '<Esc>', '<C-\\><C-n>', opts)
+
+-- Run file
+vim.keymap.set('n', '<leader>p', ':lua require("runfile").run_file()<CR>', opts)
