@@ -6,6 +6,7 @@ function M.run_file()
 
   if ext == 'rs'      then cmd('w ! rustc -o %< % && ./%< && rm %<')
   elseif ext == 'ml'  then cmd('w ! ocamlc -o %< % && ./%< && rm %< %<.cm*')
+  elseif ext == 'c'   then cmd('w ! clang -o %< % && ./%< && rm %<')
   elseif ext == 'py'  then cmd('w ! python3')
   elseif ext == 'rb'  then cmd('w ! ruby')
   elseif ext == 'lua' then cmd('w ! lua')
