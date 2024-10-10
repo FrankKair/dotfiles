@@ -11,8 +11,7 @@ echo "xcode-select install"
 xcode-select --install
 
 echo "Nerd fonts"
-brew tap homebrew/cask-fonts
-brew cask install font-hack-nerd-font
+brew install font-hack-nerd-font
 
 echo "~ Applications"
 brew install --cask the-unarchiver
@@ -30,7 +29,6 @@ brew install tmux
 brew install fzf
 brew install ripgrep
 brew install bat
-brew install exa
 brew install gh
 brew install gitui
 brew install diff-so-fancy
