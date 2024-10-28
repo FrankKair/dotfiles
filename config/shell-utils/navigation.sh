@@ -1,8 +1,3 @@
-# cd + ls
-cs () {
-  cd "$@" && tree --level=1 
-}
-
 # open dir or file
 o () {
   if [ $# -eq 0 ]; then open .;
@@ -23,10 +18,6 @@ fo() {
     file=$(fzf) && $opener "$file"
 }
 
-
 # Shortcuts
 alias zrc='nvim ~/.zshrc'
-alias notes='nvim ~/Documents/notes'
-alias docs='cs ~/Documents'
-alias dotfiles='cs ~/Documents/dotfiles'
-alias fmk='cs ~/Documents/fmk'
+alias docs='cd ~/Documents'
