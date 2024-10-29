@@ -12,8 +12,6 @@ source $ZSH/oh-my-zsh.sh
 . $HOME/.config/shell-utils/git.sh
 . $HOME/.config/shell-utils/navigation.sh
 . $HOME/.config/shell-utils/ruby.sh
-. $HOME/.config/shell-utils/ocaml.sh
-. $HOME/.config/shell-utils/nvm.sh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 # Search for dotfiles and ignore git files
