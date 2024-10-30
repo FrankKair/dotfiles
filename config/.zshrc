@@ -1,18 +1,52 @@
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
-
-# Path to your oh-my-zsh installation.
-export ZSH="/Users/frankkair/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="af-magic"
 plugins=(git)
 source $ZSH/oh-my-zsh.sh
 
-# User configuration
-. $HOME/.config/shell-utils/general.sh
-. $HOME/.config/shell-utils/git.sh
-. $HOME/.config/shell-utils/navigation.sh
-. $HOME/.config/shell-utils/ruby.sh
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-# Search for dotfiles and ignore git files
+source <(fzf --zsh)
 export FZF_DEFAULT_COMMAND="rg --files --follow --no-ignore-vcs --hidden -g '!{**/.git/*}'"
+alias ip='ifconfig | grep "inet " | grep -Fv 127.0.0.1 | cut -f 2 -d " "'
+alias cat='bat --decorations=never'
+alias zrc='nvim ~/.zshrc'
+alias docs='cd ~/Documents'
+alias gcane='git commit --amend --no-edit && git push --force'
+alias gb='git checkout $(git branch | fzf)'
+alias gshow="git show (git log --oneline | fzf --multi --preview 'git show {+1}' | awk '{print $1}')"
+
+o () {
+  if [ $# -eq 0 ]; then open .;
+  else open "$@";
+  fi;
+}
+
+fo() {
+  local file
+  local opener="open"
+  if [ -n "$1" ]; then
+    opener="$1"
+    shift
+  fi
+  file=$(fzf) && $opener "$file"
+}
+
+# shortcuts
+alias zrc='nvim ~/.zshrc'
+alias docs='cd ~/Documents'
+
+# github
+prdiff () {
+  PULL_REQUEST=$(gh pr list | fzf | awk '{print $1}')
+  eval "gh pr diff $PULL_REQUEST"
+}
+
+issueview () {
+  ISSUE=$(gh issue list | fzf | awk '{print $1}')
+  eval "gh issue view --comments $ISSUE"
+}
+
+setupstreambranch () {
+  # BRANCH=`git branch | cat | grep -i '*' | cut -c 3-`
+  BRANCH=$(git branch --show-current)
+  echo "origin/$BRANCH"
+  eval "git branch --set-upstream-to=origin/$BRANCH $BRANCH"
+}
