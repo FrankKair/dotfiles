@@ -29,6 +29,12 @@ fo() {
   file=$(fzf) && $opener "$file"
 }
 
+upgrade-packages () {
+  brew update
+  brew upgrade
+  brew upgrade --cask
+}
+
 # shortcuts
 alias zrc='nvim ~/.zshrc'
 alias docs='cd ~/Documents'
