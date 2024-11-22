@@ -18,7 +18,6 @@ require('lazy').setup({
   'lewis6991/gitsigns.nvim',
   'preservim/nerdtree',
   'akinsho/bufferline.nvim',
-  'navarasu/onedark.nvim',
   { 'numToStr/Comment.nvim', opts = {} }, -- "gc" to comment regions/lines
   { 'folke/which-key.nvim', opts = {} }, -- Show you pending keybinds.
   {
@@ -52,13 +51,11 @@ require('lazy').setup({
   },
 
   {
-    -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
     -- See `:help lualine.txt`
     opts = {
       options = {
         icons_enabled = false,
-        theme = 'onedark',
         component_separators = '|',
         section_separators = '',
       },
