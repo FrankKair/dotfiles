@@ -24,6 +24,7 @@ brew install --cask spotify
 
 echo "~ Developer tools"
 brew install --cask alacritty
+brew install --cask ghostty
 brew install neovim
 brew install tmux
 brew install fzf

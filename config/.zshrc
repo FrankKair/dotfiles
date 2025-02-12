@@ -11,7 +11,9 @@ alias zrc='nvim ~/.zshrc'
 alias docs='cd ~/Documents'
 alias gcane='git commit --amend --no-edit && git push --force'
 alias gb='git checkout $(git branch | fzf)'
-alias gshow="git show (git log --oneline | fzf --multi --preview 'git show {+1}' | awk '{print $1}')"
+gshow() {
+  git show "$(git log --oneline | fzf --multi --preview 'git show {+1}' | awk '{print $1}')"
+}
 
 o () {
   if [ $# -eq 0 ]; then open .;
