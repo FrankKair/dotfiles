@@ -17,25 +17,21 @@ echo "~ Applications"
 brew install --cask the-unarchiver
 brew install --cask rectangle
 brew install --cask maccy
-brew install --cask mouse-fix
 brew install --cask firefox
 brew install --cask google-drive
 brew install --cask spotify
 
 echo "~ Developer tools"
-brew install --cask alacritty
 brew install --cask ghostty
 brew install neovim
-brew install tmux
 brew install fzf
 brew install ripgrep
 brew install bat
 brew install gh
-brew install gitui
 brew install diff-so-fancy
-brew install translate-shell
 
 echo "~ Personal"
+brew install translate-shell
 brew install --cask transmission
 brew install --cask vlc
 brew install --cask anki
