@@ -28,6 +28,7 @@ brew install fzf
 brew install ripgrep
 brew install bat
 brew install gh
+brew install gitui
 brew install diff-so-fancy
 
 echo "~ Personal"
