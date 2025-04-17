@@ -1,17 +1,25 @@
 local M = {}
 
+local runners = {
+  rs  = "rustc -o %< % && ./%< && rm %<",
+  ml  = "ocamlc -o %< % && ./%< && rm %< %<.cm*",
+  c   = "clang -o %< % && ./%< && rm %<",
+  py  = "python3 %",
+  rb  = "ruby %",
+  lua = "lua %",
+  ts  = "ts-node %",
+  sh  = "sh %"
+}
+
 function M.run_file()
   local ext = vim.fn.expand('%:e')
-  local cmd = vim.api.nvim_command
+  local cmd = runners[ext]
 
-  if ext == 'rs'      then cmd('w ! rustc -o %< % && ./%< && rm %<')
-  elseif ext == 'ml'  then cmd('w ! ocamlc -o %< % && ./%< && rm %< %<.cm*')
-  elseif ext == 'c'   then cmd('w ! clang -o %< % && ./%< && rm %<')
-  elseif ext == 'py'  then cmd('w ! python3')
-  elseif ext == 'rb'  then cmd('w ! ruby')
-  elseif ext == 'lua' then cmd('w ! lua')
-  elseif ext == 'ts'  then cmd('w ! ts-node')
-  else print('Unsupported file type, see .config/neovim/lua/runfile.lua')
+  if cmd then
+    vim.cmd('write')
+    vim.cmd('!' .. cmd)
+  else
+    vim.notify('Unsupported file type: ' .. ext .. '\nSee ~/.config/nvim/lua/runfile.lua', vim.log.levels.WARN)
   end
 end
 
