@@ -6,5 +6,5 @@
 Symlinking `ln path_to_repo/dotfiles/config/nvim/init.vim .config/nvim/init.vim`
 
 ```sh
-w ! !ocamlfind ocamlc -package base,stdio -linkpkg -o %< % && ./%< && rm %< %<.cm*
+w ! !ocamlfind ocamlc -package base,stdio,core_kernel -linkpkg -o %< % && ./%< && rm %< %<.cm*
 ```
