@@ -1,0 +1,3 @@
+dotfiles
+
+.gitconfig, .vimrc, .zshrc and a bootstrap script to install apps and tools.
