@@ -13,7 +13,11 @@ alias gbc='git branch | cat'
 alias gb='git checkout $(git branch | fzf)'
 gshow() {
   while true; do
-    commit=$(git log --oneline | fzf --multi --preview 'git show {+1}' | awk '{print $1}')
+    commit=$(git log --oneline --color=always | \
+      fzf --ansi --multi \
+          --preview 'git show --color=always {1}' \
+          --delimiter=" " --with-nth=1.. \
+          --bind "enter:accept" | awk '{print $1}')
     [[ -z "$commit" ]] && break
     git show "$commit"
   done
