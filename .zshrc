@@ -12,7 +12,11 @@ alias gcane='git commit --amend --no-edit && git push --force'
 alias gbc='git branch | cat'
 alias gb='git checkout $(git branch | fzf)'
 gshow() {
-  git show "$(git log --oneline | fzf --multi --preview 'git show {+1}' | awk '{print $1}')"
+  while true; do
+    commit=$(git log --oneline | fzf --multi --preview 'git show {+1}' | awk '{print $1}')
+    [[ -z "$commit" ]] && break
+    git show "$commit"
+  done
 }
 docker-prune() { docker system df; docker image prune; docker system prune --volumes; }
 
