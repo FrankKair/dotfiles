@@ -60,3 +60,28 @@ gbdel () {
   fi
   git branch | grep -v "^\*" | grep -v "$primary_branch" | xargs git branch -D
 }
+
+klog () {
+  FOLLOW=""
+  if [[ "$1" == "-f" ]]; then
+    FOLLOW="--follow"
+  fi
+  POD=$(kubectl get pods | fzf | awk '{print $1}')
+  [ -n "$POD" ] && kubectl logs $FOLLOW "$POD"
+}
+
+kenv() {
+  POD=$(kubectl get pods | fzf | awk '{print $1}')
+  CONTAINER=$(kubectl get pod "$POD" -o jsonpath='{.spec.containers[*].name}' | tr ' ' '\n' | fzf)
+  kubectl exec "$POD" -c "$CONTAINER" -- env | fzf
+}
+
+ksecret () {
+  SECRET=$(kubectl get secrets | fzf | awk '{print $1}')
+  kubectl get secret "$SECRET" -o jsonpath="{.data.$SECRET}" | base64 -d
+}
+
+krestart () {
+  NAME=$(kubectl get deploy -o custom-columns=NAME:.metadata.name --no-headers | fzf)
+  [ -n "$NAME" ] && kubectl rollout restart deployment/"$NAME"
+}
