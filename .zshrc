@@ -61,7 +61,7 @@ gbdel () {
   git branch | grep -v "^\*" | grep -v "$primary_branch" | xargs git branch -D
 }
 
-klog () {
+klogs () {
   FOLLOW=""
   if [[ "$1" == "-f" ]]; then
     FOLLOW="--follow"
@@ -70,7 +70,7 @@ klog () {
   [ -n "$POD" ] && kubectl logs $FOLLOW "$POD"
 }
 
-kenv() {
+kenv () {
   POD=$(kubectl get pods | fzf | awk '{print $1}')
   CONTAINER=$(kubectl get pod "$POD" -o jsonpath='{.spec.containers[*].name}' | tr ' ' '\n' | fzf)
   kubectl exec "$POD" -c "$CONTAINER" -- env | fzf
