@@ -1,3 +1,4 @@
 shell-integration-features = no-cursor
 cursor-style = block
 cursor-style-blink = true
+font-family = "Iosevka"
