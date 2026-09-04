@@ -15,7 +15,7 @@ backup() {
 }
 
 # Zsh ----------------------------------------------------------------
-backup ~./zshrc
+backup ~/.zshrc
 ln -sfv "$DOTFILES/.zshrc" ~/.zshrc
 
 mkdir -p ~/.config/zsh
@@ -27,9 +27,9 @@ done
 backup ~/.gitconfig
 backup ~/.gitignore
 backup ~/.gitignore_global
-ln -sfv "$DOTFILES/git/.gitconfig" ~./.gitconfig
-ln -sfv "$DOTFILES/git/.gitignore" ~./.gitignore
-ln -sfv "$DOTFILES/git/.gitignore_global" ~./.gitignore_global
+ln -sfv "$DOTFILES/git/.gitconfig" ~/.gitconfig
+ln -sfv "$DOTFILES/git/.gitignore" ~/.gitignore
+ln -sfv "$DOTFILES/git/.gitignore_global" ~/.gitignore_global
 
 # Vim ----------------------------------------------------------------
 backup ~/.vimrc
