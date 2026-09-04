@@ -1,3 +1,22 @@
 dotfiles
+========
 
-.gitconfig, .vimrc, .zshrc and a bootstrap script to install apps and tools.
+Config files for zsh, git, vim, and neovim.
+Managed with symlinks (edit in the repo -> changes are live).
+
+
+Setup (new machine)
+-------------------
+
+  git clone https://github.com/FrankKair/dotfiles.git ~/Documents/dotfiles
+  cd ~/Documents/dotfiles
+
+  ./bootstrap.sh         # install core tools
+  ./bootstrap.sh --home  # include personal apps
+  ./install.sh           # symlink config files + clone neovim config
+
+
+Revert
+------
+
+  ./uninstall.sh         # restore orignal config from backups
