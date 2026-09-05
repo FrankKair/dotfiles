@@ -19,4 +19,4 @@ Setup (new machine)
 Revert
 ------
 
-  ./uninstall.sh         # restore orignal config from backups
+  ./uninstall.sh         # restore original config from backups
