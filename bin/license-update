@@ -1,0 +1,391 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+use feature qw(say);
+use utf8;
+use open qw(:std :utf8);
+
+use File::Basename qw(basename);
+use Getopt::Long qw(GetOptions);
+use POSIX qw(strftime);
+
+my $VERSION = '0.1.0';
+
+# Main -----------------------------------------------------
+
+my $dry_run = 1;
+my $verbose = 0;
+my $replace = 0;
+my $help    = 0;
+my $version = 0;
+
+GetOptions(
+    'write|apply' => sub { $dry_run = 0 },
+    'verbose|v'   => \$verbose,
+    'replace'     => \$replace,
+    'help|h'      => \$help,
+    'version'     => \$version,
+) or usage(1);
+
+usage(0) if $help;
+
+if ($version) {
+    say "license-update $VERSION";
+    exit 0;
+}
+
+my $current_year = strftime('%Y', localtime);
+
+my $repos_scanned  = 0;
+my $licenses_found = 0;
+my $files_changed  = 0;
+
+my @paths = @ARGV ? @ARGV : ('.');
+
+for my $path (@paths) {
+    if (-d "$path/.git") {
+        process_repo($path);
+        next;
+    }
+
+    if (-d $path) {
+        find_repositories($path);
+        next;
+    }
+
+    die "license-update: not a directory or Git repository: $path\n";
+}
+
+say '';
+say '=' x 60;
+say "Repositories scanned: $repos_scanned";
+say "License files found : $licenses_found";
+
+if ($dry_run) {
+    say "Files would change  : $files_changed";
+} else {
+    say "Files changed       : $files_changed";
+}
+
+exit 0;
+
+# Functions ------------------------------------------------
+
+sub find_repositories {
+    my ($root) = @_;
+
+    opendir my $dir, $root
+        or die "Cannot read directory $root: $!\n";
+
+    while (my $entry = readdir $dir) {
+        next if $entry eq '.';
+        next if $entry eq '..';
+
+        my $repo = "$root/$entry";
+
+        next unless -d $repo;
+        next unless -d "$repo/.git";
+
+        process_repo($repo);
+    }
+
+    closedir $dir;
+    return
+}
+
+sub process_repo {
+    my ($repo) = @_;
+
+    $repos_scanned++;
+
+    my @files = (
+        "$repo/LICENSE",
+        "$repo/LICENCE",
+        "$repo/LICENSE.md",
+        "$repo/LICENCE.md",
+        "$repo/LICENSE.txt",
+        "$repo/LICENCE.txt",
+        "$repo/COPYING",
+        "$repo/COPYING.txt",
+    );
+
+    for my $file (@files) {
+        next unless -f $file;
+
+        $licenses_found++;
+        process_license($repo, $file);
+        return;
+    }
+}
+
+sub process_license {
+    my ($repo, $file) = @_;
+
+    open my $fh, '<', $file
+        or die "Cannot read $file: $!\n";
+
+    my @lines = <$fh>;
+
+    close $fh
+        or die "Cannot close $file: $!\n";
+
+    my $changed = 0;
+    my @changes;
+
+    for my $line (@lines) {
+        next unless $line =~ /copyright/i;
+
+        my $old = $line;
+
+        $line =~ s{
+            \b(\d{4})(?:-(\d{4}))?\b
+        }{
+            update_year($1, $2)
+        }egx;
+
+        next if $line eq $old;
+
+        $changed = 1;
+        push @changes, [$old, $line];
+    }
+
+    return unless $changed;
+
+    $files_changed++;
+
+    if ($verbose) {
+        say '';
+        say '=' x 60;
+        say $repo;
+        say '=' x 60;
+
+        my $name = basename($file);
+        say "\n$name";
+
+        for my $change (@changes) {
+            my ($old, $new) = @$change;
+
+            chomp $old;
+            chomp $new;
+
+            say '';
+            say "  $old";
+            say "  -> $new";
+        }
+
+        print '';
+
+        if ($dry_run) {
+            say "[DRY RUN] Would update";
+        }
+    } elsif ($dry_run) {
+        say "Would update $file";
+    }
+
+    return if $dry_run;
+
+    open my $out, '>', $file
+        or die "Cannot write $file: $!\n";
+
+    print {$out} @lines;
+
+    close $out
+        or die "Cannot close $file: $!\n";
+
+    say "Updated $file";
+    return;
+}
+
+sub update_year {
+    my ($start, $end) = @_;
+
+    if (defined $end) {
+        return "$start-$end" if $end >= $current_year;
+        return $replace ? $current_year : "$start-$current_year";
+    }
+
+    return $start if $start >= $current_year;
+    return $replace ? $current_year : "$start-$current_year";
+}
+
+sub usage {
+    my ($exit_code) = @_;
+
+    print <<'EOF';
+license-update - update copyright years across local repositories
+
+Usage:
+  license-update [options] [path ...]
+
+Paths:
+  path              Git repository or directory containing repositories
+  (default: current directory)
+
+Options:
+  --write, --apply  Apply changes
+  -v, --verbose     Show before/after changes
+  --replace         Replace year instead of preserving history
+  -h, --help        Show help
+  --version         Show version
+
+Examples:
+  license-update
+  license-update --verbose
+  license-update --write
+  license-update --write --verbose
+  license-update --write --replace
+  license-update ~/Documents
+  license-update ~/Documents/my-project
+EOF
+
+    exit $exit_code;
+}
+
+__END__
+
+=head1 NAME
+
+license-update - update copyright years across local repositories
+
+=head1 SYNOPSIS
+
+B<license-update> [I<options>] [I<path> ...]
+
+=head1 DESCRIPTION
+
+B<license-update> scans Git repositories for common license files and
+updates copyright years to the current year.
+
+By default, no files are written. Use B<--write> to apply changes.
+
+When given a directory, B<license-update> looks for Git repositories
+directly inside that directory. It does not recursively search
+subdirectories.
+
+A Git repository may also be supplied directly as a path.
+
+If no path is supplied, the current directory is used.
+
+Historical copyright years are preserved unless B<--replace> is used.
+
+=head1 OPTIONS
+
+B<--write>, B<--apply>
+
+Write changes to license files.
+
+Without this option, B<license-update> performs a dry run.
+
+B<-v>, B<--verbose>
+
+Show the copyright lines that would be changed.
+
+Without this option, dry runs show only which files would be updated.
+
+B<--replace>
+
+Replace the existing copyright year instead of preserving the
+original year.
+
+For example:
+
+    Copyright 2024
+
+becomes:
+
+    Copyright 2026
+
+instead of:
+
+    Copyright 2024-2026
+
+B<-h>, B<--help>
+
+Show usage information.
+
+B<--version>
+
+Show the version of B<license-update>.
+
+=head1 PATHS
+
+A path may refer to either a Git repository or a directory containing
+Git repositories.
+
+If no path is supplied, B<.> is used.
+
+For example:
+
+    license-update
+
+scans repositories directly inside the current directory.
+
+    license-update ~/Documents
+
+scans repositories directly inside F<~/Documents>.
+
+    license-update ~/Documents/my-project
+
+processes that repository directly.
+
+Multiple paths may be supplied.
+
+=head1 LICENSE FILES
+
+The following license filenames are recognized:
+
+    LICENSE
+    LICENCE
+    LICENSE.md
+    LICENCE.md
+    LICENSE.txt
+    LICENCE.txt
+    COPYING
+    COPYING.txt
+
+Only the first recognized license file in each repository is processed.
+
+=head1 EXAMPLES
+
+Run a safe dry run:
+
+    license-update
+
+Show detailed changes:
+
+    license-update --verbose
+
+Apply changes:
+
+    license-update --write
+
+Apply changes and show before/after lines:
+
+    license-update --write --verbose
+
+Replace the existing year rather than preserving the history:
+
+    license-update --write --replace
+
+Scan all repositories directly inside Documents:
+
+    license-update ~/Documents
+
+Process a single repository:
+
+    license-update ~/Documents/my-project
+
+=head1 NOTES
+
+The default behaviour is a dry run. Files are only modified when
+B<--write> or B<--apply> is specified.
+
+Copyright years are only considered on lines containing the word
+"copyright".
+
+=head1 SEE ALSO
+
+L<find(1)>
+
+=cut

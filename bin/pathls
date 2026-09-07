@@ -1,0 +1,114 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+use feature qw(say);
+use utf8;
+use open qw(:std :utf8);
+
+use Getopt::Long qw(GetOptions);
+
+my $VERSION = '0.1.0';
+
+# Main -----------------------------------------------------
+
+my $help    = 0;
+my $version = 0;
+
+GetOptions(
+    'help|h'    => \$help,
+    'version|v' => \$version,
+) or die "Try '$0 --help' for more information.\n";
+
+if ($help) {
+    usage(0);
+}
+
+if ($version) {
+    say "pathls $VERSION";
+    exit 0;
+}
+
+my $name = shift // 'PATH';
+
+die "pathls: too many arguments\n"
+    if @ARGV;
+
+die "pathls: $name is not set\n"
+    unless exists $ENV{$name};
+
+say "$name";
+
+my @paths = split /:/, $ENV{$name}, -1;
+
+for my $i (0 .. $#paths) {
+    printf "  %d  %s\n", $i + 1, $paths[$i];
+}
+
+exit 0;
+
+# Functions ------------------------------------------------
+
+sub usage {
+    my ($exit_code) = @_;
+    print <<"EOF";
+Usage: pathls [VARIABLE]
+
+Break down a colon-separated environment variable into one entry per line.
+
+Arguments:
+  VARIABLE    Environment variable to display (default: PATH)
+
+Options:
+  -h, --help       Show this help
+  -v, --version    Show version
+
+Examples:
+  pathls
+  pathls MANPATH
+EOF
+    exit $exit_codee;
+}
+
+__END__
+
+=head1 NAME
+
+pathls - display colon-separated environment paths one entry per line
+
+=head1 SYNOPSIS
+
+B<pathls> [I<VARIABLE>]
+
+=head1 DESCRIPTION
+
+B<pathls> displays a colon-separated environment variable as a numbered
+list, making variables such as C<PATH> and C<MANPATH> easier to read.
+
+If no variable is specified, C<PATH> is used.
+
+=head1 OPTIONS
+
+=over 4
+
+=item B<-h>, B<--help>
+
+Show usage information and exit.
+
+=item B<-v>, B<--version>
+
+Show the version and exit.
+
+=back
+
+=head1 EXAMPLES
+
+Display C<PATH>:
+
+    pathls
+
+Display C<MANPATH>:
+
+    pathls MANPATH
+
+=cut

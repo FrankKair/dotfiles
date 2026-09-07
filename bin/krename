@@ -1,0 +1,264 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+use feature qw(say);
+use utf8;
+use open qw(:std :utf8);
+
+use File::Basename qw(dirname basename);
+use Getopt::Long;
+
+my $VERSION = '0.1.0';
+
+# Main -----------------------------------------------------
+
+my $dry_run = 1;
+my $verbose = 0;
+my $help    = 0;
+my $version = 0;
+
+GetOptions(
+    'dry-run|n'   => \$dry_run,
+    'apply|write' => sub { $dry_run = 0 },
+    'verbose|v'   => \$verbose,
+    'help|h'      => \$help,
+    'version'     => \$version,
+) or usage(1);
+
+usage(0) if $help;
+
+if ($version) {
+    say "krename $VERSION";
+    exit 0;
+}
+
+usage(1) unless @ARGV;
+
+my $files_checked = 0;
+my $files_renamed = 0;
+my $files_skipped = 0;
+
+for my $old (@ARGV) {
+    $files_checked++;
+
+    unless (-f $old) {
+        warn "krename: not a file: $old\n";
+        $files_skipped++;
+        next;
+    }
+
+    my $dir  = dirname($old);
+    my $name = basename($old);
+
+    my $new_name = kebab_case($name);
+
+    my $new = $dir eq '.'
+        ? $new_name
+        : "$dir/$new_name";
+
+    if ($old eq $new) {
+        if ($verbose) {
+            say "$old (unchanged)";
+        }
+
+        $files_skipped++;
+        next;
+    }
+
+    if (-e $new) {
+        warn "krename: target already exists: $new\n";
+        $files_skipped++;
+        next;
+    }
+
+    say "$old -> $new";
+
+    if ($dry_run) {
+        $files_renamed++;
+        next;
+    }
+
+    if (!rename $old, $new) {
+        warn "krename: failed to rename '$old' -> '$new': $!\n";
+        $files_skipped++;
+        next;
+    }   
+
+    $files_renamed++;
+}
+
+# Summary --------------------------------------------------
+
+say '';
+say '=' x 60;
+say "Files checked : $files_checked";
+say "Files renamed : $files_renamed";
+say "Files skipped : $files_skipped";
+say '';
+
+if ($dry_run) {
+    if ($files_renamed) {
+        say "[DRY RUN] $files_renamed file(s) would be renamed";
+    } else {
+        say '[DRY RUN] No files would be renamed';
+    }
+} else {
+    if ($files_renamed) {
+        say "$files_renamed file(s) renamed";
+    } else {
+        say 'No files were renamed';
+    }
+}
+
+exit 0;
+
+# Functions ------------------------------------------------
+
+sub kebab_case {
+    my ($name) = @_;
+
+    my $lower = lc $name;
+
+    my ($base, $ext) = $lower =~ /^(.*?)(\.[^.]+)?$/;
+
+    $ext //= '';
+
+    $base =~ s/[^a-z0-9]+/-/g;
+    $base =~ s/^-+|-+$//g;
+    $base =~ s/-{2,}/-/g;
+
+    return $base . $ext;
+}
+
+sub usage {
+    my ($exit_code) = @_;
+
+    print <<'EOF';
+krename - rename files to lowercase kebab-case
+
+Usage:
+  krename [options] file ...
+
+Options:
+  -n, --dry-run       Show changes without renaming (default)
+      --apply, --write Rename files
+  -v, --verbose       Show unchanged files
+  -h, --help          Show help
+      --version       Show version
+
+Notes:
+  Only filenames are changed. Directory paths are preserved.
+  Existing files are never overwritten.
+
+Examples:
+  krename *.pdf
+  krename --apply *.pdf
+  krename --apply "My Weird File.txt"
+  krename zsh/config/*
+EOF
+
+    exit $exit_code;
+}
+
+__END__
+
+=head1 NAME
+
+krename - rename files to lowercase kebab-case
+
+=head1 SYNOPSIS
+
+B<krename> [I<options>] I<file> ...
+
+=head1 DESCRIPTION
+
+B<krename> renames files to lowercase kebab-case.
+
+It is intended for cleaning up filenames such as downloaded files with
+spaces, underscores, or inconsistent capitalization.
+
+By default, B<krename> performs a dry run and shows the proposed changes
+without modifying any files.
+
+Use B<--apply> or B<--write> to perform the renames.
+
+Only the filename is modified. Directory paths are preserved.
+
+For example:
+
+    zsh/config/My Weird File.sh
+
+becomes:
+
+    zsh/config/my-weird-file.sh
+
+B<krename> does not overwrite existing files.
+
+=head1 OPTIONS
+
+=over 4
+
+=item B<-n>, B<--dry-run>
+
+Show proposed changes without renaming files.
+
+This is the default.
+
+=item B<--apply>, B<--write>
+
+Rename files.
+
+=item B<-v>, B<--verbose>
+
+Show files whose names do not need to be changed.
+
+=item B<-h>, B<--help>
+
+Show usage information.
+
+=item B<--version>
+
+Show the program version.
+
+=back
+
+=head1 EXAMPLES
+
+Preview changes:
+
+    krename *.pdf
+
+Rename PDF files:
+
+    krename --apply *.pdf
+
+Rename a file containing spaces:
+
+    krename --apply "My Weird File.txt"
+
+Rename files inside a directory:
+
+    krename zsh/config/*
+
+=head1 NOTES
+
+B<krename> only changes the basename of a file and preserves its
+directory path.
+
+For example:
+
+    path/to/My File.txt
+
+becomes:
+
+    path/to/my-file.txt
+
+The current implementation performs simple ASCII-oriented normalization.
+Unicode transliteration is intentionally not performed.
+
+=head1 SEE ALSO
+
+L<rename(1)>
+
+=cut

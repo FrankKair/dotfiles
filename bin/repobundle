@@ -1,0 +1,424 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+use feature qw(say);
+use utf8;
+use open qw(:std :utf8);
+
+use Getopt::Long qw(GetOptions);
+use POSIX qw(strftime);
+
+my $VERSION        = '0.1.0';
+my $MAX_FILE_SIZE  = 10 * 1024 * 1024; # 10 MB
+
+# Main ------------------------------------------------------
+
+my $verbose = 0;
+my $help    = 0;
+my $version = 0;
+
+GetOptions(
+    'verbose|v' => \$verbose,
+    'help|h'    => \$help,
+    'version'   => \$version,
+) or usage(1);
+
+usage(0) if $help;
+
+if ($version) {
+    say "repobundle $VERSION";
+    exit 0;
+}
+
+my @paths = @ARGV ? @ARGV : ('.');
+
+my @files;
+
+for my $path (@paths) {
+    if (-f $path) {
+        push @files, $path;
+        next;
+    }
+
+    if (-d "$path/.git") {
+        push @files, git_files($path);
+        next;
+    }
+
+    if (-d $path) {
+        push @files, find_files($path);
+        next;
+    }
+
+    die "repobundle: not a file, directory, or Git repository: $path\n";
+}
+
+# Avoid bundling generated bundles and the script itself ----
+
+@files = grep {
+    $_ ne 'repobundle'
+        && $_ ne 'repobundle.pl'
+        && $_ !~ /\.bundle$/
+        && $_ !~ /\.rbundle$/
+} @files;
+
+# Remove duplicates when multiple paths overlap -------------
+
+my %seen;
+@files = grep { !$seen{$_}++ } @files;
+
+# Metadata --------------------------------------------------
+
+my $root       = repo_root_name();
+my $generated  = strftime('%Y-%m-%dT%H:%M:%SZ', gmtime);
+my $file_count = 0;
+my $byte_count = 0;
+
+# First pass: gather stats ----------------------------------
+
+for my $file (@files) {
+    next unless -f $file;
+    next if -B $file;
+
+    my $size = -s $file;
+
+    next unless defined $size;
+
+    if ($size > $MAX_FILE_SIZE) {
+        say STDERR "Skipping $file (larger than 10 MB)"
+            if $verbose;
+        next;
+    }
+
+    $file_count++;
+    $byte_count += $size;
+}
+
+# Header ----------------------------------------------------
+
+say "# repobundle\n";
+say "Root: $root";
+say "Generated: $generated";
+say "Files: $file_count";
+say "Bytes: $byte_count\n";
+
+# Emit files ------------------------------------------------
+
+for my $file (sort @files) {
+    next unless -f $file;
+    next if -B $file;
+
+    my $size = -s $file;
+
+    next unless defined $size;
+    next if $size > $MAX_FILE_SIZE;
+
+    say STDERR "Including: $file" if $verbose;
+
+    my $content = read_file($file);
+    my $lang    = detect_language($file);
+    my $fence   = choose_fence($content);
+
+    say "### FILE: $file\n";
+    say "$fence$lang";
+    print $content;
+    print "\n" unless $content =~ /\n\z/;
+    say "$fence\n";
+}
+
+exit 0;
+
+# Functions -------------------------------------------------
+
+sub git_files {
+    my ($root) = @_;
+
+    open my $git, '-|', 'git', '-C', $root, 'ls-files', '-z'
+        or die "Cannot execute git ls-files: $!\n";
+
+    local $/ = "\0";
+    my @files = <$git>;
+
+    close $git
+        or die "git ls-files failed in $root\n";
+
+    chomp @files;
+    return map { "$root/$_" } @files;
+}
+
+sub find_files {
+    my ($root) = @_;
+
+    my @files;
+    my @stack = ($root);
+    while (@stack) {
+        my $dir = pop @stack;
+
+        opendir my $dh, $dir
+            or die "Cannot read directory $dir: $!\n";
+
+        while (my $entry = readdir $dh) {
+            next if $entry eq '.';
+            next if $entry eq '..';
+
+            my $path = "$dir/$entry";
+
+            if (-d $path) {
+                next if $entry eq '.git';
+                push @stack, $path;
+                next;
+            }
+
+            push @files, $path if -f $path;
+        }
+
+        closedir $dh;
+    }
+
+    return @files;
+}
+
+sub read_file {
+    my ($file) = @_;
+
+    open my $fh, '<', $file
+        or die "Cannot read $file: $!\n";
+
+    local $/;
+    my $content = <$fh>;
+
+    close $fh
+        or die "Cannot close $file: $!\n";
+
+    return $content;
+}
+
+sub repo_root_name {
+    my $root = `git rev-parse --show-toplevel 2>/dev/null`;
+
+    chomp $root;
+
+    if ($root) {
+        $root =~ s{.*/}{};
+        return $root;
+    }
+
+    my $pwd = $ENV{PWD} || '.';
+    $pwd =~ s{.*/}{};
+
+    return $pwd;
+}
+
+sub detect_language {
+    my ($file) = @_;
+
+    return 'go'         if $file =~ /\.go$/;
+    return 'python'     if $file =~ /\.py$/;
+    return 'ruby'       if $file =~ /\.rb$/;
+    return 'lua'        if $file =~ /\.lua$/;
+    return 'bash'       if $file =~ /\.(sh|bash)$/;
+    return 'ocaml'      if $file =~ /\.(ml|mli)$/;
+    return 'yaml'       if $file =~ /\.(yaml|yml)$/;
+    return 'json'       if $file =~ /\.json$/;
+    return 'toml'       if $file =~ /\.toml$/;
+    return 'markdown'   if $file =~ /\.md$/;
+    return 'dockerfile' if $file =~ m{(^|/)Dockerfile(?:\..*)?$};
+    return 'perl'       if $file =~ /\.(pl|pm)$/;
+    return 'javascript' if $file =~ /\.(js|jsx)$/;
+    return 'typescript' if $file =~ /\.(ts|tsx)$/;
+    return 'rust'       if $file =~ /\.rs$/;
+    return 'c'          if $file =~ /\.(c|h)$/;
+    return 'cpp'        if $file =~ /\.(cpp|hpp|cc|hh)$/;
+    return 'swift'      if $file =~ /\.swift$/;
+    return 'css'        if $file =~ /\.css$/;
+    return 'html'       if $file =~ /\.html?$/;
+    return 'sql'        if $file =~ /\.sql$/;
+    return 'java'       if $file =~ /\.java$/;
+    return 'kotlin'     if $file =~ /\.kt$/;
+
+    return 'text';
+}
+
+sub choose_fence {
+    my ($content) = @_;
+
+    my $max = 3;
+
+    while ($content =~ /(`{3,})/g) {
+        my $len = length($1);
+        $max = $len if $len > $max;
+    }
+
+    return '`' x ($max + 1);
+}
+
+sub usage {
+    my ($exit_code) = @_;
+
+    print <<'EOF';
+repobundle - bundle a repository into a single text file
+
+Usage:
+  repobundle [options] [path ...]
+
+Paths:
+  path              Git repository, directory, or file
+  (default: current directory)
+
+Options:
+  -v, --verbose     Show processing information
+  -h, --help        Show help
+      --version     Show version
+
+Examples:
+  repobundle
+  repobundle .
+  repobundle ~/Documents/my-project
+  repobundle README.md src/main.c
+  repobundle > repo.md
+  repobundle | pbcopy
+  repobundle --verbose > repo.md
+EOF
+
+    exit $exit_code;
+}
+
+__END__
+
+=head1 NAME
+
+repobundle - bundle a repository into a single text file
+
+=head1 SYNOPSIS
+
+B<repobundle> [I<options>] [I<path> ...]
+
+=head1 DESCRIPTION
+
+B<repobundle> collects text files from a Git repository or directory
+and writes them as a single Markdown document to standard output.
+
+Inside a Git repository, only tracked files are included.
+
+For directories that are not Git repositories, files are discovered
+recursively.
+
+Individual files may also be supplied directly.
+
+Binary files and files larger than 10 MB are skipped.
+
+The resulting bundle is intended for inspection, sharing, archiving,
+or providing complete small-project context to another tool.
+
+=head1 OPTIONS
+
+B<-v>, B<--verbose>
+
+Show information about files as they are processed.
+
+Diagnostic output is written to standard error so that standard output
+remains suitable for redirection.
+
+B<-h>, B<--help>
+
+Show usage information.
+
+B<--version>
+
+Show the version of B<repobundle>.
+
+=head1 PATHS
+
+If no path is supplied, the current directory is used.
+
+A Git repository is bundled using its tracked files.
+
+A non-Git directory is searched recursively.
+
+Individual files may also be supplied.
+
+Multiple paths may be supplied.
+
+For example:
+
+    repobundle ~/Documents/project-a
+    repobundle ~/Documents/project-a ~/Documents/project-b
+    repobundle README.md src/main.c
+
+=head1 OUTPUT
+
+The bundle is written to standard output.
+
+For example:
+
+    repobundle > repo.md
+
+    repobundle | pbcopy
+
+    repobundle | less
+
+Each file is emitted as a fenced Markdown code block with a language
+selected from its filename.
+
+A header containing the repository name, generation time, file count,
+and total byte count is included at the beginning of the bundle.
+
+=head1 FILES
+
+Inside a Git repository, files are obtained from L<git ls-files(1)>.
+
+Binary files are skipped.
+
+Files larger than 10 MB are skipped.
+
+Generated bundle files ending in F<.bundle> or F<.rbundle> are skipped.
+
+=head1 EXAMPLES
+
+Bundle the current repository:
+
+    repobundle
+
+Bundle a repository elsewhere:
+
+    repobundle ~/Documents/my-project
+
+Bundle a directory recursively:
+
+    repobundle ~/Documents/some-directory
+
+Bundle specific files:
+
+    repobundle README.md src/main.c
+
+Save the bundle:
+
+    repobundle > repo.md
+
+Copy the bundle to the macOS clipboard:
+
+    repobundle | pbcopy
+
+Inspect the generated bundle:
+
+    repobundle | less
+
+Show processing information while writing the bundle:
+
+    repobundle --verbose > repo.md
+
+=head1 NOTES
+
+The standard output of B<repobundle> contains only the generated
+bundle. Diagnostic messages from B<--verbose> are written to standard
+error.
+
+This allows the output to be safely redirected or piped to another
+command.
+
+=head1 SEE ALSO
+
+L<git(1)>, L<less(1)>
+
+=cut

@@ -1,0 +1,490 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+use feature qw(say);
+use utf8;
+use open qw(:std :utf8);
+
+use Getopt::Long qw(GetOptions);
+
+my $VERSION = '0.1.0';
+
+my %LANGUAGES = (
+    c => {
+        vars => [
+            q{CC      ?= cc},
+            q{CFLAGS  ?= -Wall -Wextra -Wpedantic -O2},
+            q{LDFLAGS ?=},
+            q{TARGET  ?= app},
+            q{SRC     := src/main.c},
+        ],
+
+        targets => [
+            {
+                name => 'build',
+                desc => 'Build the program',
+                cmds => [
+                    q{$(CC) $(CFLAGS) $(SRC) $(LDFLAGS) -o $(TARGET)},
+                ],
+            },
+            {
+                name => 'run',
+                deps => ['build'],
+                desc => 'Build and run',
+                cmds => [
+                    q{./$(TARGET)},
+                ],
+            },
+            {
+                name => 'clean',
+                desc => 'Remove artefacts',
+                cmds => [
+                    q{rm -f $(TARGET)},
+                ],
+            },
+        ],
+    },
+
+    go => {
+        vars => [
+            q{VERSION ?= $(shell git describe --tags --always --dirty 2>/dev/null || echo dev)},
+            q{TARGET  ?= app},
+        ],
+
+        targets => [
+            {
+                name => 'build',
+                desc => 'Build the binary',
+                cmds => [
+                    q{go build -ldflags "-X main.version=$(VERSION)" -o $(TARGET) .},
+                ],
+            },
+            {
+                name => 'run',
+                deps => ['build'],
+                desc => 'Build and run',
+                cmds => [
+                    q{./$(TARGET)},
+                ],
+            },
+            {
+                name => 'install',
+                desc => 'Install the binary',
+                cmds => [
+                    q{go install -ldflags "-X main.version=$(VERSION)" .},
+                ],
+            },
+            {
+                name => 'fmt',
+                desc => 'Format source code',
+                cmds => [
+                    q{go fmt ./...},
+                ],
+            },
+            {
+                name => 'test',
+                desc => 'Run tests',
+                cmds => [
+                    q{go test -v ./...},
+                ],
+            },
+            {
+                name => 'vet',
+                desc => 'Run go vet',
+                cmds => [
+                    q{go vet ./...},
+                ],
+            },
+            {
+                name => 'staticcheck',
+                desc => 'Run static analysis',
+                cmds => [
+                    q{@command -v staticcheck >/dev/null 2>&1 || { echo "staticcheck is not installed."; echo "Install it with:"; echo "  go install honnef.co/go/tools/cmd/staticcheck@latest"; exit 1; }},
+                    q{staticcheck ./...},
+                ],
+            },
+            {
+                name => 'check',
+                deps => ['vet', 'staticcheck', 'test'],
+                desc => 'Run all checks',
+            },
+            {
+                name => 'clean',
+                desc => 'Remove artefacts',
+                cmds => [
+                    q{rm -f $(TARGET)},
+                ],
+            },
+        ],
+    },
+
+    ocaml => {
+        targets => [
+            {
+                name => 'build',
+                desc => 'Build the project',
+                cmds => [
+                    q{dune build},
+                ],
+            },
+            {
+                name => 'watch',
+                desc => 'Rebuild on file changes',
+                cmds => [
+                    q{dune build --watch},
+                ],
+            },
+            {
+                name => 'run',
+                desc => 'Run the project',
+                cmds => [
+                    q{dune exec app},
+                ],
+            },
+            {
+                name => 'test',
+                desc => 'Run tests',
+                cmds => [
+                    q{dune runtest},
+                ],
+            },
+            {
+                name => 'test-verbose',
+                desc => 'Run tests (verbose)',
+                cmds => [
+                    q{dune runtest --force --verbose},
+                ],
+            },
+            {
+                name => 'fmt',
+                desc => 'Format source code',
+                cmds => [
+                    q{dune fmt},
+                ],
+            },
+            {
+                name => 'clean',
+                desc => 'Remove artefacts',
+                cmds => [
+                    q{dune clean},
+                ],
+            },
+        ],
+    },
+
+    python => {
+        vars => [
+            q{PYTHON ?= python},
+        ],
+
+        targets => [
+            {
+                name => 'sync',
+                desc => 'Install dependencies',
+                cmds => [
+                    q{uv sync},
+                ],
+            },
+            {
+                name => 'run',
+                deps => ['sync'],
+                desc => 'Run the application',
+                cmds => [
+                    q{uv run $(PYTHON) main.py},
+                ],
+            },
+            {
+                name => 'test',
+                deps => ['sync'],
+                desc => 'Run tests',
+                cmds => [
+                    q{uv run pytest},
+                ],
+            },
+            {
+                name => 'lint',
+                deps => ['sync'],
+                desc => 'Run linting',
+                cmds => [
+                    q{uv run ruff check .},
+                ],
+            },
+            {
+                name => 'fmt',
+                deps => ['sync'],
+                desc => 'Format source code',
+                cmds => [
+                    q{uv run ruff format .},
+                ],
+            },
+            {
+                name => 'check',
+                deps => ['lint', 'test'],
+                desc => 'Run all checks',
+            },
+            {
+                name => 'clean',
+                desc => 'Remove caches',
+                cmds => [
+                    q{find . -type d -name __pycache__ -prune -exec rm -rf {} +},
+                    q{find . -type d -name .pytest_cache -prune -exec rm -rf {} +},
+                    q{find . -type d -name .ruff_cache -prune -exec rm -rf {} +},
+                ],
+            },
+        ],
+    },
+
+    ruby => {
+        vars => [
+            q{NAME ?= app},
+        ],
+
+        targets => [
+            {
+                name => 'install',
+                desc => 'Install dependencies',
+                cmds => [
+                    q{bundle install},
+                ],
+            },
+            {
+                name => 'uninstall',
+                desc => 'Uninstall the gem',
+                cmds => [
+                    q{gem uninstall $(NAME)},
+                ],
+            },
+            {
+                name => 'test',
+                deps => ['install'],
+                desc => 'Run tests',
+                cmds => [
+                    q{bundle exec rake},
+                ],
+            },
+            {
+                name => 'console',
+                deps => ['install'],
+                desc => 'Open console',
+                cmds => [
+                    q{bundle exec irb -r $(NAME)},
+                ],
+            },
+            {
+                name => 'build',
+                desc => 'Build the gem',
+                cmds => [
+                    q{gem build *.gemspec},
+                ],
+            },
+            {
+                name => 'clean',
+                desc => 'Remove built gems',
+                cmds => [
+                    q{rm -f *.gem},
+                ],
+            },
+        ],
+    },
+
+    swift => {
+        targets => [
+            {
+                name => 'build',
+                desc => 'Build the project',
+                cmds => [
+                    q{swift build},
+                ],
+            },
+            {
+                name => 'run',
+                desc => 'Run the project',
+                cmds => [
+                    q{swift run},
+                ],
+            },
+            {
+                name => 'test',
+                desc => 'Run tests',
+                cmds => [
+                    q{swift test},
+                ],
+            },
+            {
+                name => 'clean',
+                desc => 'Remove build artefacts',
+                cmds => [
+                    q{swift package clean},
+                ],
+            },
+        ],
+    },
+);
+
+# Main -----------------------------------------------------
+
+my $help    = 0;
+my $version = 0;
+
+GetOptions(
+    'help|h'  => \$help,
+    'version' => \$version,
+) or usage(1);
+
+usage(0) if $help;
+
+if ($version) {
+    say "stork $VERSION";
+    exit 0;
+}
+
+my $cmd = shift @ARGV // '';
+
+if (!$cmd || $cmd eq 'help') {
+    usage(0);
+}
+
+if ($cmd eq 'list') {
+    say for sort keys %LANGUAGES;
+    exit 0;
+}
+
+if (!exists $LANGUAGES{$cmd}) {
+    die "stork: unknown language '$cmd'\n";
+}
+
+if (@ARGV) {
+    die "stork: unexpected argument '$ARGV[0]'\n";
+}
+
+emit_makefile($LANGUAGES{$cmd});
+exit 0;
+
+# Functions ------------------------------------------------
+
+sub emit_makefile {
+    my ($spec) = @_;
+
+    if (my $vars = $spec->{vars}) {
+        say for @$vars;
+        say '';
+    }
+
+    my @phony;
+
+    for my $target (@{$spec->{targets}}) {
+        my $name = $target->{name};
+        my $desc = $target->{desc};
+        my $deps = $target->{deps} // [];
+        my $cmds = $target->{cmds} // [];
+
+        push @phony, $name;
+
+        my $prerequisites = join ' ', @$deps;
+
+        say "$name:"
+            . ($prerequisites ? " $prerequisites" : '')
+            . " ## $desc";
+
+        say "\t$_" for @$cmds;
+        say '';
+    }
+
+    push @phony, 'help';
+
+    say <<'EOF';
+help: ## Show this help
+	@grep -E '^[a-zA-Z0-9_-]+:.*##' $(MAKEFILE_LIST) | sort | \
+		awk -F ':.*## ' '{printf "  \033[36m%-16s\033[0m %s\n", $$1, $$2}'
+EOF
+
+    say '';
+    say '.PHONY: ' . join ' ', @phony;
+    say '.DEFAULT_GOAL := help';
+
+    return;
+}
+
+sub usage {
+    my ($exit_code) = @_;
+
+    say <<'EOF';
+stork - generate opinionated Makefiles
+
+Usage:
+  stork <language>
+  stork list
+  stork [options] <language>
+
+Languages:
+  c
+  go
+  ocaml
+  python
+  ruby
+  swift
+
+Options:
+  -h, --help       Show this help
+      --version    Show version
+
+Examples:
+  stork go
+  stork go > Makefile
+  stork python > Makefile
+  stork swift > Makefile
+  stork list
+EOF
+
+    exit $exit_code;
+}
+
+__END__
+
+=head1 NAME
+
+stork - generate opinionated Makefiles
+
+=head1 SYNOPSIS
+
+B<stork> [I<options>] I<language>
+
+=head1 DESCRIPTION
+
+B<stork> generates opinionated Makefiles for small projects.
+
+It provides sensible targets and commands for common workflows while
+leaving the actual build work to each language's native tools.
+
+Supported languages are C, Go, OCaml, Python, Ruby, and Swift.
+
+=head1 OPTIONS
+
+B<-h>, B<--help>
+
+Print usage information.
+
+B<--version>
+
+Print the version of B<stork>.
+
+=head1 EXAMPLES
+
+    stork go
+    stork go > Makefile
+    stork python > Makefile
+    stork ocaml > Makefile
+
+=head1 FILES
+
+B<Makefile>
+
+The Makefile generated in the current directory when standard output
+is redirected to a file.
+
+=head1 SEE ALSO
+
+L<make(1)>
+
+=cut
