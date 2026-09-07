@@ -67,7 +67,7 @@ Examples:
   pathls
   pathls MANPATH
 EOF
-    exit $exit_codee;
+    exit $exit_code;
 }
 
 __END__
