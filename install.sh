@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-DOTFILES="$(cd "$(dirname "$0")" & pwd)"
+DOTFILES="$(cd "$(dirname "$0")" && pwd)"
 
 echo "Linking dotfiles from $DOTFILES"
 echo ""
@@ -19,7 +19,7 @@ backup ~/.zshrc
 ln -sfv "$DOTFILES/.zshrc" ~/.zshrc
 
 mkdir -p ~/.config/zsh
-for f in "$DOTFILES/zsh/config"*.zsh; do
+for f in "$DOTFILES/zsh/config/"*.sh; do
   ln -sfv "$f" ~/.config/zsh/
 done
 

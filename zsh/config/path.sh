@@ -1,3 +1,3 @@
 DOTFILES="$HOME/Documents/dotfiles"
 export PATH="$DOTFILES/bin/:$PATH"
-export MANPATH="$DOTFILES/man:$MANPATH"
+export MANPATH="$DOTFILES/man/man1:$MANPATH"
