@@ -11,8 +11,5 @@ docker-prune() {
 packages-upgrade() {
   brew update
   brew upgrade
-  CASKS=( $(brew list --cask) )
-  for cask in "${CASKS[@]}"; do
-    brew uninstall --cask --force "$cask" && brew reinstall --cask "$cask" && brew info "$cask"
-  done
+  brew upgrade --cask
 }
