@@ -5,6 +5,7 @@ alias zrc='nvim ~/.zshrc'
 alias docs='cd ~/Documents'
 alias l='ls -lah'
 alias ll='ls -lh'
+alias dus='du -sh -- *(D) | sort -hr'
 
 alias gst='git status'
 alias gss='git status --short'
