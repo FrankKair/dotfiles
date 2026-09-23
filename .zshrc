@@ -10,6 +10,7 @@ HISTSIZE=10000
 SAVEHIST=10000
 
 for f in ~/.config/zsh/*.sh; do source "$f"; done
+for f in ~/.config/work/*.sh(N); do source "$f"; done
 
 source <(fzf --zsh)
 export FZF_DEFAULT_COMMAND="rg --files --follow --hidden -g '!{**/.git/*}'"
