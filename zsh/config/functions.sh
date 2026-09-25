@@ -15,26 +15,29 @@ packages-upgrade() {
 }
 
 heic2jpg() {
-  if [[ $# -ne 1 ]]; then
-    echo "Usage: heic2jpg file.HEIC"
+  if [[ $# -eq 0 ]]; then
+    echo "Usage: heic2jpg file1.HEIC [file2.HEIC ...]"
     return 1
   fi
 
-  local input="$1"
-  local output="${input%.*}.jpg"
+  local input output
 
-  if [[ ! -f "$input" ]]; then
-    echo "File not found: $input"
-    return 1
-  fi
+  for input in "$@"; do
+    output="${input%.*}.jpg"
 
-  if [[ -e "$output" ]]; then
-    echo "Output already exists: $output"
-    return 1
-  fi
+    if [[ ! -f "$input" ]]; then
+      echo "File not found: $input"
+      continue
+    fi
 
-  sips -s format jpeg \
-       -s formatOptions 92 \
-       "$input" \
-       --out "$output"
+    if [[ -e "$output" ]]; then
+      echo "Output already exists: $output"
+      continue
+    fi
+
+    sips -s format jpeg \
+         -s formatOptions 92 \
+         "$input" \
+         --out "$output"
+  done
 }
