@@ -9,7 +9,7 @@ HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
 
-for f in ~/.config/zsh/*.sh; do source "$f"; done
+for f in ~/.config/zsh/*.sh(N); do source "$f"; done
 for f in ~/.config/work/*.sh(N); do source "$f"; done
 
 source <(fzf --zsh)
